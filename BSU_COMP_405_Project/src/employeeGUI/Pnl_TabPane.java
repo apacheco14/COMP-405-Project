@@ -26,7 +26,6 @@ abstract class Pnl_TabPane extends JPanel implements MouseListener, KeyListener
 		pnl_resultArea.add(scr_resultsPane);
 		this.add(pnl_resultArea);
 		
-		this.setSize(800, 450);
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setVisible(true);
 	}

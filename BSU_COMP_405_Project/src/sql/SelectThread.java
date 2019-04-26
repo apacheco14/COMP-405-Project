@@ -43,7 +43,7 @@ public class SelectThread extends SQLThread
 			// get results
 			ResultSet result = stmt.executeQuery();
 			
-			ArrayList resultList = new ArrayList<Object[]>();
+			ArrayList<Object[]> resultList = new ArrayList<Object[]>();
 			int numColumns = 2;
 			while(result.next())
 			{

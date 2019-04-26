@@ -17,7 +17,7 @@ class Tbl_Results extends JTable implements TableModelListener
 	{
 		this.setFocusable(false);
 		this.setVisible(true);
-		this.setPreferredScrollableViewportSize(new Dimension(750, 300));
+		this.setPreferredScrollableViewportSize(new Dimension(735, 340));
 		this.setFillsViewportHeight(true);
 		this.setModel(model);
 		model.addTableModelListener(this);

@@ -15,9 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import startMenu.MainMenu;
 import controller.AppManager;
-import controller.UserManager;
+import controller.UsersManager;
 
 public class Frm_LogIn extends JFrame implements ActionListener, KeyListener
 {
@@ -90,26 +89,14 @@ public class Frm_LogIn extends JFrame implements ActionListener, KeyListener
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		boolean loggedInSuccessfully = false;
+		boolean loggedInSuccessfully = UsersManager.attemptLogIn(
+				txt_userName.getText(), String.valueOf(txt_password.getPassword()));
 		
-		for(int index = 0; index < UserManager.getUsers().size(); index++)
+		if(loggedInSuccessfully)
 		{
-			if(txt_userName.getText().equals(UserManager.getUsers().get(index).getUserName()))
-			{
-				if(UserManager.getUsers().get(index).logOn(String.valueOf(txt_password.getPassword())))
-				{
-					JOptionPane.showMessageDialog(
-							null, "You have successfully logged in.", "Log In Successful",
-							JOptionPane.INFORMATION_MESSAGE);
-					loggedInSuccessfully = true;
-					new MainMenu(UserManager.getUsers().get(index));
-					this.dispose();
-				}
-				break;
-			}
+			this.dispose();
 		}
-		
-		if(loggedInSuccessfully == false)
+		else
 		{
 			JOptionPane.showMessageDialog(
 					null, "Username or password is incorrect. Please try again.", "Log In Error",
@@ -126,14 +113,8 @@ public class Frm_LogIn extends JFrame implements ActionListener, KeyListener
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyTyped(KeyEvent e)	{	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyReleased(KeyEvent e)	{	}
 }

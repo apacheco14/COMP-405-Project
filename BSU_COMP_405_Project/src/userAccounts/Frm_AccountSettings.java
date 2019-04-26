@@ -18,7 +18,7 @@ import javax.swing.event.CaretListener;
 
 import controller.AppManager;
 import controller.InputChecker;
-import controller.UserManager;
+import controller.UsersManager;
 
 public class Frm_AccountSettings extends JFrame implements CaretListener, FocusListener, ActionListener
 {
@@ -182,19 +182,16 @@ public class Frm_AccountSettings extends JFrame implements CaretListener, FocusL
 			}
 			else
 			{
-				for(int index = 0; index < UserManager.getUsers().size(); index++)
+				if(UsersManager.isUserNameAvailable(txt_userName.getText()))
 				{
-					if(txt_userName.getText().equals(UserManager.getUsers().get(index).getUserName()))
-					{
-						txt_userName.setBackground(Color.PINK);
-						lbl_userNameReq.setText("This username is unavailable");
-						lbl_userNameReq.setVisible(true);
-					}
-					else
-					{
-						txt_userName.setBackground(Color.GREEN);
-						lbl_userNameReq.setVisible(false);
-					}
+					txt_userName.setBackground(Color.GREEN);
+					lbl_userNameReq.setVisible(false);
+				}
+				else
+				{
+					txt_userName.setBackground(Color.PINK);
+					lbl_userNameReq.setText("This username is unavailable");
+					lbl_userNameReq.setVisible(true);
 				}
 			}
 		}
@@ -217,7 +214,7 @@ public class Frm_AccountSettings extends JFrame implements CaretListener, FocusL
 				JOptionPane.showMessageDialog(null, "Last name input invalid.", "Invalid Input",
 						JOptionPane.ERROR_MESSAGE);
 			
-			UserManager.updateUserInfo();
+			UsersManager.updateUserInfo();
 			
 			this.dispose();
 		}

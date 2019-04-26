@@ -2,24 +2,34 @@ package controller;
 
 import java.awt.Image;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
-
 import sql.InsertThread;
 import sql.SelectThread;
 import sql.ThreadFactory;
-import userAccounts.User;
+import startupGUI.Frm_Startup;
+import userAccounts.Frm_LogIn;
 
 public class AppManager
 {
 	private static SelectThread select = ThreadFactory.getSelectThread();
 	private static InsertThread insert = ThreadFactory.getInsertThread();
+	
+	public static void startApp()
+	{
+		new Frm_Startup();
+	}
+	
+	public static void startEmployeeVersion()
+	{
+		UsersManager.createUsers();
+		new Frm_LogIn();
+	}
+	
+	public static void startCustomerVersion()
+	{
+		
+	}
 	
 	public static String[] getColumnNames()
 	{
