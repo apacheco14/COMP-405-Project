@@ -17,7 +17,6 @@ public class AppManager
 	
 	public static void startApp()
 	{
-		System.out.println("running");
 		new Frm_Startup();
 	}
 	
