@@ -9,6 +9,8 @@ import javax.swing.*;
 
 import org.jdesktop.swingx.JXDatePicker;
 
+import controller.AppManager;
+
 public class Pnl_NewFlight extends JPanel implements MouseListener
 {
 	private static final long serialVersionUID = 4245246633629876362L;
@@ -107,7 +109,13 @@ public class Pnl_NewFlight extends JPanel implements MouseListener
 		}
 		else if(e.getSource().equals(btn_confirm))
 		{
-			// insert data
+			Object[] data =
+					{
+							txt_flightNum.getText(), dtp_depDate.getDate(), dtp_arrDate.getDate(),
+							spn_depTime.getValue(), spn_arrTime.getValue(), drp_depLocation.getSelectedItem(),
+							drp_arrLocation.getSelectedItem(), Double.valueOf(txt_price.getText())
+					};
+			AppManager.insertNewFlightData(data);
 		}
 	}
 

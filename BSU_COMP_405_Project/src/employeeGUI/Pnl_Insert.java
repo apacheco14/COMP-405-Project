@@ -15,7 +15,7 @@ class Pnl_Insert extends employeeGUI.Pnl_TabPane
 	
 	private void refreshTable()
 	{
-		AppManager.insertData(this.txt_userInputField.getText());
+		//AppManager.insertData(this.txt_userInputField.getText());
 		tbl_results.updateTable(AppManager.getAllData());
 	}
 

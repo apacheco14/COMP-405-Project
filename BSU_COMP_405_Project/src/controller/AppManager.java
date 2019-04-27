@@ -62,16 +62,14 @@ public class AppManager
 		return data;
 	}
 	
-	public static void insertData(String data)
+	public static void insertNewFlightData(Object[] data)
 	{
 		while(insert.isAlive())
 		{
 			// wait for thread to finish?
 		}
 		
-		System.out.println("Inserting " + data + " into database...");
-		
-		// TODO start an InsertThread to add data into the database
+		insert.run(insert.NEW_FLIGHT, data);
 	}
 	
 	public static Image getIconImage()
