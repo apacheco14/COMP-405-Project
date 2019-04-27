@@ -11,13 +11,14 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
-class SqlConnection
+public class SqlConnection
 {
 	// Database connectivity
 	private Connection connection;
 	private String sql;
 	private String DB_PATH = SqlConnection.class.getResource("project.sqlite").getFile();
 	
+	// constructor should only be called by AppManager
 	SqlConnection()
 	{
 		// load the sqlite-JDBC driver using the current class loader
@@ -43,7 +44,7 @@ class SqlConnection
 		}
 	}
 
-	Object[][] searchDatabase(String param)
+	public Object[][] searchDatabase(String param)
 	{
 		if(param.equalsIgnoreCase(""))
 		{
@@ -97,7 +98,7 @@ class SqlConnection
 	}
 	
 
-	int getAirportId(String param)
+	public int getAirportId(String param)
 	{
 		sql = "SELECT Id FROM Airport WHERE City LIKE ?";
 		
@@ -117,7 +118,7 @@ class SqlConnection
 		return 0;
 	}
 
-	ArrayList<String> getAirportLocations()
+	public ArrayList<String> getAirportLocations()
 	{
 		sql = "SELECT City FROM Airport ORDER BY City ASC";
 		
@@ -145,7 +146,7 @@ class SqlConnection
 		return null;
 	}
 	
-	boolean insertNewFlight(Object[] data)
+	public boolean insertNewFlight(Object[] data)
 	{
 		if(data.length == 8)
 		{

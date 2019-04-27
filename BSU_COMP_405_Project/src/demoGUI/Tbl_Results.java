@@ -6,12 +6,14 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AppManager;
+import controller.SqlConnection;
 
 class Tbl_Results extends JTable implements TableModelListener
 {
 	private static final long serialVersionUID = -7111214612644360874L;
+	private SqlConnection sql = AppManager.sql;
 	private DefaultTableModel model = new DefaultTableModel(
-			AppManager.getAllData(), AppManager.getColumnNames());
+			sql.searchDatabase(""), AppManager.getColumnNames());
 	
 	protected Tbl_Results()
 	{

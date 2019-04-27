@@ -11,8 +11,8 @@ import userAccounts.Frm_LogIn;
 
 public class AppManager
 {
-	// only one SqlConnection should be made, all requests for data come from AppManager
-	private static SqlConnection sql = new SqlConnection();
+	// only one SqlConnection should be made, should not be changed
+	public final static SqlConnection sql = new SqlConnection();
 	
 	public static void startApp()
 	{
@@ -33,31 +33,6 @@ public class AppManager
 	public static String[] getColumnNames()
 	{
 		return new String[] {"artist_name", "album_title"};
-	}
-	
-	public static Object[][] getAllData()
-	{
-		return sql.searchDatabase("");
-	}
-	
-	public static Object[][] searchDatabase(String query)
-	{
-		return sql.searchDatabase(query);
-	}
-	
-	public static void insertNewFlightData(Object[] data)
-	{
-		sql.insertNewFlight(data);
-	}
-	
-	public static ArrayList<String> getAirportLocations()
-	{
-		return sql.getAirportLocations();
-	}
-	
-	public static int getAirportId(String airportCity)
-	{
-		return sql.getAirportId(airportCity);
 	}
 	
 	public static Image getIconImage()

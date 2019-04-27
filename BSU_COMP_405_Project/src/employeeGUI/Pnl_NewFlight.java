@@ -12,6 +12,7 @@ import javax.swing.*;
 import org.jdesktop.swingx.JXDatePicker;
 
 import controller.AppManager;
+import controller.SqlConnection;
 
 class Pnl_NewFlight extends JPanel implements MouseListener
 {
@@ -25,7 +26,9 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 	// airplane ?
 	// price
 	
-	private ArrayList<String> availableLocations = AppManager.getAirportLocations();
+	private SqlConnection sql = AppManager.sql;
+	
+	private ArrayList<String> availableLocations = sql.getAirportLocations();
 	
 	private JLabel lbl_flightNum = new JLabel("Flight Number");
 	private JLabel lbl_depDate = new JLabel("Departure Date/Time");
@@ -102,8 +105,8 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 		}
 		else if(e.getSource().equals(btn_confirm))
 		{
-			int depLocationId = AppManager.getAirportId((String) drp_depLocation.getSelectedItem());
-			int arrLocationId = AppManager.getAirportId((String) drp_arrLocation.getSelectedItem());
+			int depLocationId = sql.getAirportId((String) drp_depLocation.getSelectedItem());
+			int arrLocationId = sql.getAirportId((String) drp_arrLocation.getSelectedItem());
 			
 			Object[] data =
 					{
@@ -111,7 +114,8 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 							dtp_arrDate.getDate(), spn_depTime.getValue(), spn_arrTime.getValue(),
 							depLocationId, arrLocationId, Double.valueOf(txt_price.getText())
 					};
-			AppManager.insertNewFlightData(data);
+			
+			sql.insertNewFlight(data);
 			
 			// TODO give confirmation or close window
 		}

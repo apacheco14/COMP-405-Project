@@ -3,10 +3,12 @@ package demoGUI;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import controller.AppManager;
+import controller.SqlConnection;
 
 class Pnl_Insert extends demoGUI.Pnl_TabPane
 {
 	private static final long serialVersionUID = 4646320130197860976L;
+	private SqlConnection sql = AppManager.sql;
 
 	protected Pnl_Insert()
 	{
@@ -16,7 +18,7 @@ class Pnl_Insert extends demoGUI.Pnl_TabPane
 	private void refreshTable()
 	{
 		//AppManager.insertData(this.txt_userInputField.getText());
-		tbl_results.updateTable(AppManager.getAllData());
+		tbl_results.updateTable(sql.searchDatabase(""));
 	}
 
 	@Override
