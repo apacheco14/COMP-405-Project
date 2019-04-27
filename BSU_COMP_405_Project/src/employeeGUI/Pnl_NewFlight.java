@@ -5,7 +5,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXDatePicker;
 
@@ -23,10 +26,10 @@ public class Pnl_NewFlight extends JPanel implements MouseListener
 	// departure location
 	// arrival date/time
 	// arrival location
-	// airplane
+	// airplane ?
 	// price
 	
-	private String[] availableLocations = {"Boston", "New York", "Chicago", "Los Angeles"};
+	private ArrayList<String> availableLocations = AppManager.getAirportLocations();
 	
 	private JLabel lbl_flightNum = new JLabel("Flight Number");
 	private JLabel lbl_depDate = new JLabel("Departure Date/Time");
@@ -39,9 +42,9 @@ public class Pnl_NewFlight extends JPanel implements MouseListener
 	private JXDatePicker dtp_depDate = new JXDatePicker();
 	private JXDatePicker dtp_arrDate = new JXDatePicker();
 	private JSpinner spn_depTime = new JSpinner(new SpinnerDateModel());
-	private JSpinner.DateEditor edt_depTime = new JSpinner.DateEditor(spn_depTime, "hh:mm a z");
+	private JSpinner.DateEditor edt_depTime = new JSpinner.DateEditor(spn_depTime, "hh:mm a");
 	private JSpinner spn_arrTime = new JSpinner(new SpinnerDateModel());
-	private JSpinner.DateEditor edt_arrTime = new JSpinner.DateEditor(spn_arrTime, "hh:mm a z");
+	private JSpinner.DateEditor edt_arrTime = new JSpinner.DateEditor(spn_arrTime, "hh:mm a");
 	private JComboBox<String> drp_depLocation = new JComboBox<String>();
 	private JComboBox<String> drp_arrLocation = new JComboBox<String>();
 	private JTextField txt_price = new JTextField(15);
@@ -56,6 +59,11 @@ public class Pnl_NewFlight extends JPanel implements MouseListener
 		//tabbedPane.addTab(searchPane.getName(), searchPane);
 		//tabbedPane.addTab(insertPane.getName(), insertPane);
 		
+		/*
+		 * TODO txt_flightNum should have some kind of check in place to make sure it is
+		 * an integer value
+		 */
+		
 		spn_depTime.setEditor(edt_depTime);
 		spn_depTime.setValue(Date.valueOf(LocalDate.now()));
 		
@@ -64,8 +72,8 @@ public class Pnl_NewFlight extends JPanel implements MouseListener
 		
 		for(String location : availableLocations)
 		{
-			drp_depLocation.addItem(location);
-			drp_arrLocation.addItem(location);
+			drp_depLocation.addItem((String) location);
+			drp_arrLocation.addItem((String) location);
 		}
 		
 		btn_cancel.addMouseListener(this);
@@ -109,11 +117,14 @@ public class Pnl_NewFlight extends JPanel implements MouseListener
 		}
 		else if(e.getSource().equals(btn_confirm))
 		{
+			int depLocationId = AppManager.getAirportId((String) drp_depLocation.getSelectedItem());
+			int arrLocationId = AppManager.getAirportId((String) drp_arrLocation.getSelectedItem());
+			
 			Object[] data =
 					{
-							txt_flightNum.getText(), dtp_depDate.getDate(), dtp_arrDate.getDate(),
-							spn_depTime.getValue(), spn_arrTime.getValue(), drp_depLocation.getSelectedItem(),
-							drp_arrLocation.getSelectedItem(), Double.valueOf(txt_price.getText())
+							Integer.parseInt(txt_flightNum.getText()), dtp_depDate.getDate(),
+							dtp_arrDate.getDate(), spn_depTime.getValue(), spn_arrTime.getValue(),
+							depLocationId, arrLocationId, Double.valueOf(txt_price.getText())
 					};
 			AppManager.insertNewFlightData(data);
 		}

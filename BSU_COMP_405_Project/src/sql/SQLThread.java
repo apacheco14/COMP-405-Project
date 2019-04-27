@@ -4,12 +4,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-abstract class SQLThread extends Thread
+public abstract class SQLThread extends Thread
 {
+	public final int NEW_FLIGHT = 0;
+	public final int AIRPORT_LOCATIONS = 1;
+	public final int AIRPORT_ID = 2;
+	public final int SIMPLE_SELECT = 3;
+	
 	// Database connectivity
 	Connection connection;
 	String sql;
-	String DB_PATH = SQLThread.class.getResource("Chinook_Sqlite_AutoIncrementPKs.sqlite").getFile();
+	String DB_PATH = SQLThread.class.getResource("project.sqlite").getFile();
 	
 	protected SQLThread()
 	{
