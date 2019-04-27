@@ -90,9 +90,8 @@ public class Frm_NewUser extends JFrame implements CaretListener, FocusListener,
 		add(lbl_password2Req);
 		
 		add(lbl_permission);
-		drp_permission.addItem("Guest");
-		drp_permission.addItem("User");
-		drp_permission.addItem("Administrator");
+		drp_permission.addItem("Employee");
+		drp_permission.addItem("Manager");
 		drp_permission.setSelectedItem("User");
 		add(drp_permission);
 		

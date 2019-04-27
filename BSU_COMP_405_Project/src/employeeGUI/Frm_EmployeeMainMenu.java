@@ -53,22 +53,22 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 		currentUser = user;
 		
 		menu_user.setMnemonic(KeyEvent.VK_U);
-		setAllowable(mi_newUser, 0);
+		setAllowable(mi_newUser, User.MANAGER);
 		menu_user.add(mi_newUser);
 		menu_user.add(mi_logOff);
 		menu_user.add(mi_exit);
 		menuBar.add(menu_user);
 		
 		menu_flights.setMnemonic(KeyEvent.VK_F);
-		setAllowable(mi_newFlight, 0);
+		setAllowable(mi_newFlight, User.MANAGER);
 		menu_flights.add(mi_newFlight);
-		setAllowable(mi_bookFlight, 1);
+		setAllowable(mi_bookFlight, User.EMPLOYEE);
 		menu_flights.add(mi_bookFlight);
 		menuBar.add(menu_flights);
 		
 		menu_settings.setMnemonic(KeyEvent.VK_S);
 		menu_settings.add(mi_accountSettings);
-		setAllowable(mi_systemSettings, 0);
+		setAllowable(mi_systemSettings, User.MANAGER);
 		menu_settings.add(mi_systemSettings);
 		menuBar.add(menu_settings);
 		
@@ -131,8 +131,8 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 		else if(e.getSource().equals(mi_newFlight))
 		{
 			menuImage.setVisible(false);
+			add(pnl_newFlight);
 			pnl_newFlight.setVisible(true);
-			this.add(pnl_newFlight);
 		}
 		else if(e.getSource().equals(mi_bookFlight))
 		{
