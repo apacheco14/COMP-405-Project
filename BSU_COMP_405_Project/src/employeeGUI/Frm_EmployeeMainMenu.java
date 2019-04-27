@@ -20,19 +20,23 @@ import controller.AppManager;
 public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, WindowListener
 {
 	private static final long serialVersionUID = 3864620873790717020L;
+	
 	private JMenuBar menuBar = new JMenuBar();
+	
 	private JMenu menu_user = new JMenu("Users");
 	private JMenuItem mi_newUser = new MenuItem("New User", KeyEvent.VK_N, this);
 	private JMenuItem mi_logOff = new MenuItem("Log Off", KeyEvent.VK_L, this);
 	private JMenuItem mi_exit = new MenuItem("Exit", KeyEvent.VK_E, this);
+	
 	private JMenu menu_flights = new JMenu("Flights");
 	private JMenuItem mi_newFlight = new MenuItem("New Flight", KeyEvent.VK_N, this);
 	private JMenuItem mi_bookFlight = new MenuItem("Book Flight", KeyEvent.VK_B, this);
+	
 	private JMenu menu_settings = new JMenu("Settings");
 	private JMenuItem mi_systemSettings = new MenuItem("System Settings", KeyEvent.VK_S, this);
 	private JMenuItem mi_accountSettings = new MenuItem("Account Settings", KeyEvent.VK_A, this);
 	
-	private MenuImage menuImage = new MenuImage();
+	private Pnl_MenuImage menuImage = new Pnl_MenuImage();
 	private Pnl_NewFlight pnl_newFlight = new Pnl_NewFlight();
 	
 	private User currentUser;

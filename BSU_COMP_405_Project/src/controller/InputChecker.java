@@ -4,7 +4,7 @@ public class InputChecker
 {
 	public static final int LETTERS_ONLY = 0;
 	public static final int NUMBERS_ONLY = 1;
-	public static final int LETTERS_AND_NUMBERS_ONLY = 2;
+	public static final int ALPHANUMERIC_ONLY = 2;
 	public static final int JAVA_IDENTIFIER = 3;
 	public static final int NO_SPACES = 4;
 	
@@ -24,7 +24,7 @@ public class InputChecker
 					return false;
 			return true;
 		
-		case LETTERS_AND_NUMBERS_ONLY:
+		case ALPHANUMERIC_ONLY:
 			for(int index = 0; index < input.length; index++)
 				if(!Character.isLetterOrDigit(input[index]))
 					return false;

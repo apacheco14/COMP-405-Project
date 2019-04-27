@@ -6,16 +6,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import sql.InsertThread;
-import sql.SQLThread;
-import sql.SelectThread;
-import sql.SqlConnection;
-import sql.ThreadFactory;
 import startupGUI.Frm_Startup;
 import userAccounts.Frm_LogIn;
 
 public class AppManager
 {
+	// only one SqlConnection should be made, all requests for data come from AppManager
 	private static SqlConnection sql = new SqlConnection();
 	
 	public static void startApp()
@@ -41,16 +37,12 @@ public class AppManager
 	
 	public static Object[][] getAllData()
 	{
-		Object[][] data = null;	// sql.run(select.SIMPLE_SELECT, "");
-		
-		return data;
+		return sql.searchDatabase("");
 	}
 	
 	public static Object[][] searchDatabase(String query)
 	{
-		Object[][] data = sql.run(sql.SIMPLE_SELECT, query, null);
-		
-		return data;
+		return sql.searchDatabase(query);
 	}
 	
 	public static void insertNewFlightData(Object[] data)
@@ -60,9 +52,7 @@ public class AppManager
 	
 	public static ArrayList<String> getAirportLocations()
 	{
-		ArrayList<String> data = sql.getAirportLocations();
-		
-		return data;
+		return sql.getAirportLocations();
 	}
 	
 	public static int getAirportId(String airportCity)
@@ -72,12 +62,21 @@ public class AppManager
 	
 	public static Image getIconImage()
 	{
-		try {
-			return ImageIO.read(new File("Images/CallButtons.png"));
-		} catch (IOException e) {
+		try
+		{
+			return ImageIO.read(new File("Images/Small Airplane.png"));
+		}
+		catch (IOException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return null;
+	}
+	
+	public static void main(String[] args)
+	{
+		AppManager.startApp();
 	}
 }

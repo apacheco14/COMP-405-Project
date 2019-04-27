@@ -26,6 +26,12 @@ public class Frm_Startup extends JFrame implements MouseListener
 
 	public Frm_Startup()
 	{
+		this.setLocation(screenCenter.x-WINDOW_SIZE_X/2, screenCenter.y-WINDOW_SIZE_Y/2);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setSize(WINDOW_SIZE_X, WINDOW_SIZE_Y);
+		this.setVisible(true);
+		this.setIconImage(AppManager.getIconImage());
+		
 		btn_employee.addMouseListener(this);
 		btn_customer.addMouseListener(this);
 		
@@ -35,10 +41,8 @@ public class Frm_Startup extends JFrame implements MouseListener
 		this.add(btn_employee);
 		this.add(btn_customer);
 		
-		this.setLocation(screenCenter.x-WINDOW_SIZE_X/2, screenCenter.y-WINDOW_SIZE_Y/2);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(WINDOW_SIZE_X, WINDOW_SIZE_Y);
-		this.setVisible(true);
+		this.validate();
+		this.repaint();
 	}
 
 	@Override

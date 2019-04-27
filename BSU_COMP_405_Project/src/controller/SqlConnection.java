@@ -1,4 +1,4 @@
-package sql;
+package controller;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -11,16 +11,14 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
-public class SqlConnection
+class SqlConnection
 {
-	public static final int SIMPLE_SELECT = 3;
-	
 	// Database connectivity
-	Connection connection;
-	String sql;
-	String DB_PATH = SqlConnection.class.getResource("project.sqlite").getFile();
+	private Connection connection;
+	private String sql;
+	private String DB_PATH = SqlConnection.class.getResource("project.sqlite").getFile();
 	
-	public SqlConnection()
+	SqlConnection()
 	{
 		// load the sqlite-JDBC driver using the current class loader
 		try
@@ -33,7 +31,7 @@ public class SqlConnection
 			e.printStackTrace();
 		}
 
-		// protocol (jdbc): subprotocol (sqlite):databaseName (Chinook_Sqlite_AutoIncrementPKs.sqlite)
+		// protocol (jdbc): subprotocol (sqlite):databaseName (project.sqlite)
 		try
 		{
 			connection = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
@@ -44,19 +42,8 @@ public class SqlConnection
 			e.printStackTrace();
 		}
 	}
-	
-	public Object[][] run(int sqlType, String param, Object[] data)
-	{
-		switch(sqlType)
-		{
-			case SIMPLE_SELECT:
-				return simpleSelect(param);
-		}
-		
-		return null;
-	}
 
-	private Object[][] simpleSelect(String param)
+	Object[][] searchDatabase(String param)
 	{
 		if(param.equalsIgnoreCase(""))
 		{
@@ -110,18 +97,15 @@ public class SqlConnection
 	}
 	
 
-	public int getAirportId(String param)
+	int getAirportId(String param)
 	{
 		sql = "SELECT Id FROM Airport WHERE City LIKE ?";
 		
 		try
 		{
 			PreparedStatement stmt = connection.prepareStatement(sql);
-			
 			stmt.setString(1, param);
-			
 			ResultSet result = stmt.executeQuery();
-			
 			return result.getInt(1);
 			
 		}
@@ -133,7 +117,7 @@ public class SqlConnection
 		return 0;
 	}
 
-	public ArrayList<String> getAirportLocations()
+	ArrayList<String> getAirportLocations()
 	{
 		sql = "SELECT City FROM Airport ORDER BY City ASC";
 		
@@ -161,7 +145,7 @@ public class SqlConnection
 		return null;
 	}
 	
-	public boolean insertNewFlight(Object[] data)
+	boolean insertNewFlight(Object[] data)
 	{
 		if(data.length == 8)
 		{
@@ -183,9 +167,7 @@ public class SqlConnection
 				stmt.setInt(6, (int) data[6]);
 				stmt.setDouble(7, ((Double) data[7]).doubleValue());
 				
-				stmt.execute();
-				
-				System.out.println("Executing insert...");
+				stmt.executeUpdate();
 				
 				return true;
 				

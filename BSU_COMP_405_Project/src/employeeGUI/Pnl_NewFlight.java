@@ -8,18 +8,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXDatePicker;
 
 import controller.AppManager;
 
-public class Pnl_NewFlight extends JPanel implements MouseListener
+class Pnl_NewFlight extends JPanel implements MouseListener
 {
 	private static final long serialVersionUID = 4245246633629876362L;
-	private JTabbedPane tabbedPane = new JTabbedPane();
-	private JPanel searchPane = new Pnl_Search();
-	private JPanel insertPane = new Pnl_Insert();
 	
 	// flight number
 	// departure date/time
@@ -52,17 +48,9 @@ public class Pnl_NewFlight extends JPanel implements MouseListener
 	private JButton btn_cancel = new JButton("Cancel");
 	private JButton btn_confirm = new JButton("Confirm");
 	
-	public Pnl_NewFlight()
+	Pnl_NewFlight()
 	{
 		this.setLayout(new GridLayout(8, 2, 5, 20));
-		
-		//tabbedPane.addTab(searchPane.getName(), searchPane);
-		//tabbedPane.addTab(insertPane.getName(), insertPane);
-		
-		/*
-		 * TODO txt_flightNum should have some kind of check in place to make sure it is
-		 * an integer value
-		 */
 		
 		spn_depTime.setEditor(edt_depTime);
 		spn_depTime.setValue(Date.valueOf(LocalDate.now()));
@@ -95,9 +83,6 @@ public class Pnl_NewFlight extends JPanel implements MouseListener
 		this.add(txt_price);
 		this.add(btn_cancel);
 		this.add(btn_confirm);
-		
-		
-		//this.add(tabbedPane);
 	}
 
 	@Override
@@ -110,7 +95,7 @@ public class Pnl_NewFlight extends JPanel implements MouseListener
 					"Cancel New Flight Addition", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE))
 			{
 				case JOptionPane.YES_OPTION:
-					// cancel
+					// TODO cancel
 				case JOptionPane.NO_OPTION:
 					// do not cancel
 			}
@@ -127,6 +112,8 @@ public class Pnl_NewFlight extends JPanel implements MouseListener
 							depLocationId, arrLocationId, Double.valueOf(txt_price.getText())
 					};
 			AppManager.insertNewFlightData(data);
+			
+			// TODO give confirmation or close window
 		}
 	}
 
