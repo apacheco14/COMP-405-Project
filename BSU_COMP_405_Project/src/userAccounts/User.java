@@ -1,23 +1,18 @@
 package userAccounts;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import controller.UsersManager;
 
 public class User
 {
-	public final static int MANAGER = 0;
-	public final static int EMPLOYEE = 1;
+	public static final int MANAGER = 0;
+	public static final int EMPLOYEE = 1;
+	public static final int CUSTOMER = 2;
 	private String userName;
 	private String firstName;
 	private String lastName;
 	private String password;
 	private int permissionLevel;
 	private boolean loggedIn;
-	private File userLog;
-	private FileWriter writer;
 	
 	public User(String userName, String firstName, String lastName, String password, int permissionLevel)
 	{
@@ -27,26 +22,13 @@ public class User
 		this.password = password;
 		this.permissionLevel = permissionLevel;
 		loggedIn = false;
-		userLog = new File("UserLogs/" + userName + ".txt");
-		try {
-			writer = new FileWriter(userLog, true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	public boolean logOn(String password)
 	{
 		if(password.equals(this.password))
 		{
-			try {
-				writer.write(LocalDate.now() + " " + LocalTime.now() + " Log on\n");
-				writer.flush();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			UsersManager.writeToUserLog(this, UsersManager.MESSAGE_LOG_ON);
 			loggedIn = true;
 			return true;
 		}
@@ -56,13 +38,7 @@ public class User
 	
 	public void logOff()
 	{
-		try {
-			writer.write(LocalDate.now() + " " + LocalTime.now() + " Log off\n");
-			writer.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		UsersManager.writeToUserLog(this, UsersManager.MESSAGE_LOG_OFF);
 		loggedIn = false;
 	}
 
@@ -90,33 +66,15 @@ public class User
 		return loggedIn;
 	}
 
-	public File getUserLog() {
-		return userLog;
-	}
-
 	public void setFirstName(String text)
 	{
 		firstName = text;
-		try {
-			writer.write(LocalDate.now() + " " + LocalTime.now()
-					+ " First name changed to " + firstName + "\n");
-			writer.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		UsersManager.writeToUserLog(this, UsersManager.MESSAGE_NEW_FNAME);
 	}
 	
 	public void setLastName(String text)
 	{
 		lastName = text;
-		try {
-			writer.write(LocalDate.now() + " " + LocalTime.now()
-					+ " Last name changed to " + lastName + "\n");
-			writer.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		UsersManager.writeToUserLog(this, UsersManager.MESSAGE_NEW_LNAME);
 	}
 }

@@ -8,3 +8,8 @@ John
 Smith
 example
 1
+customer1
+Jane
+Doe
+password
+2

@@ -21,7 +21,8 @@ public class AppManager
 	
 	public static void startApp()
 	{
-		new Frm_Startup();
+		//new Frm_Startup();
+		AppManager.startLoginProcess();
 	}
 	
 	public static void startLoginProcess()
