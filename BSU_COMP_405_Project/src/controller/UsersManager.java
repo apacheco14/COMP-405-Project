@@ -105,7 +105,10 @@ public class UsersManager
 		{
 			if(userName.equals(users.get(index).getUserName()) && users.get(index).logOn(password))
 			{
-				new Frm_EmployeeMainMenu(users.get(index));
+				
+				// TODO decide whether account belongs to employee or customer and take proper action
+				AppManager.startEmployeeVersion(users.get(index));
+				
 				return true;
 			}
 		}

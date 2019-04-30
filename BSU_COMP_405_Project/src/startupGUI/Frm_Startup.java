@@ -50,12 +50,14 @@ public class Frm_Startup extends JFrame implements MouseListener
 	{
 		if(e.getSource().equals(btn_employee))
 		{
-			AppManager.startEmployeeVersion();
+			AppManager.startLoginProcess();
+			//AppManager.startEmployeeVersion();
 			this.dispose();
 		}
 		else if(e.getSource().equals(btn_customer))
 		{
-			AppManager.startCustomerVersion();
+			AppManager.startLoginProcess();
+			//AppManager.startCustomerVersion();
 			this.dispose();
 		}
 	}

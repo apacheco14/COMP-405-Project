@@ -6,8 +6,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+
+import customerGUI.Frm_CustomerBooking;
+import employeeGUI.Frm_EmployeeMainMenu;
 import startupGUI.Frm_Startup;
 import userAccounts.Frm_LogIn;
+import userAccounts.User;
 
 public class AppManager
 {
@@ -20,15 +24,20 @@ public class AppManager
 		new Frm_Startup();
 	}
 	
-	public static void startEmployeeVersion()
+	public static void startLoginProcess()
 	{
 		UsersManager.createUsers();
 		new Frm_LogIn();
 	}
 	
+	public static void startEmployeeVersion(User user)
+	{
+		new Frm_EmployeeMainMenu(user);
+	}
+	
 	public static void startCustomerVersion()
 	{
-		
+		new Frm_CustomerBooking();
 	}
 	
 	public static String[] getColumnNames()
