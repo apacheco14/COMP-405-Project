@@ -108,14 +108,14 @@ class SqlConnection
 			stmt.setString(1, param);
 			ResultSet result = stmt.executeQuery();
 			
-			return result.getInt(1);
-			
+			while(result.next())
+				return result.getInt(1);
 		}
 		catch(Exception e1)
 		{
 			e1.printStackTrace();
-			return 0;
 		}
+		return 0;
 	}
 
 	ArrayList<String> getAirportLocations()

@@ -111,7 +111,23 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 					"Confirm New Flight Addition", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE))
 			{
 				case JOptionPane.YES_OPTION:
-					insertData();
+					int depLocationId = AppManager.getAirportId((String) drp_depLocation.getSelectedItem());
+					int arrLocationId = AppManager.getAirportId((String) drp_arrLocation.getSelectedItem());
+					
+					Object[] data =
+							{
+									Integer.parseInt(txt_flightNum.getText()), dtp_depDate.getDate(),
+									dtp_arrDate.getDate(), spn_depTime.getValue(), spn_arrTime.getValue(),
+									depLocationId, arrLocationId, Double.valueOf(txt_price.getText())
+							};
+					
+					boolean insertSuccessful = AppManager.insertNewFlight(data);
+					if(insertSuccessful)
+					{
+						JOptionPane.showMessageDialog(this, "New flight data inserted successfully.",
+								"Successful Insert", JOptionPane.PLAIN_MESSAGE);
+					}
+					
 					break;
 				case JOptionPane.NO_OPTION:
 					break;
@@ -133,11 +149,8 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 	@Override
 	public void mouseReleased(MouseEvent e)	{	}
 	
-	private void insertData()
+	private void insertData(int depLocationId, int arrLocationId)
 	{
-		int depLocationId = AppManager.getAirportId((String) drp_depLocation.getSelectedItem());
-		int arrLocationId = AppManager.getAirportId((String) drp_arrLocation.getSelectedItem());
-		
 		Object[] data =
 				{
 						Integer.parseInt(txt_flightNum.getText()), dtp_depDate.getDate(),
