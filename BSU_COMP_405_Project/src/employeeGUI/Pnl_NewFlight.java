@@ -12,7 +12,6 @@ import javax.swing.*;
 import org.jdesktop.swingx.JXDatePicker;
 
 import controller.AppManager;
-import controller.SqlConnection;
 
 class Pnl_NewFlight extends JPanel implements MouseListener
 {
@@ -26,9 +25,7 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 	// airplane ?
 	// price
 	
-	private SqlConnection sql = AppManager.sql;
-	
-	private ArrayList<String> availableLocations = sql.getAirportLocations();
+	private ArrayList<String> availableLocations = AppManager.getAirportLocations();
 	
 	private JLabel lbl_flightNum = new JLabel("Flight Number");
 	private JLabel lbl_depDate = new JLabel("Departure Date/Time");
@@ -99,25 +96,28 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 			{
 				case JOptionPane.YES_OPTION:
 					// TODO cancel
+					break;
 				case JOptionPane.NO_OPTION:
-					// do not cancel
+					break;
 			}
 		}
 		else if(e.getSource().equals(btn_confirm))
 		{
-			int depLocationId = sql.getAirportId((String) drp_depLocation.getSelectedItem());
-			int arrLocationId = sql.getAirportId((String) drp_arrLocation.getSelectedItem());
+			switch(JOptionPane.showConfirmDialog(
+					this, "Are you sure you want to confirm this new flight?\n"
+							+ drp_depLocation.getSelectedItem() + " to "
+							+ drp_arrLocation.getSelectedItem() + " on\n"
+							+ dtp_depDate.getDate() + " at " + spn_depTime.getValue(),
+					"Confirm New Flight Addition", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE))
+			{
+				case JOptionPane.YES_OPTION:
+					insertData();
+					break;
+				case JOptionPane.NO_OPTION:
+					break;
+			}
 			
-			Object[] data =
-					{
-							Integer.parseInt(txt_flightNum.getText()), dtp_depDate.getDate(),
-							dtp_arrDate.getDate(), spn_depTime.getValue(), spn_arrTime.getValue(),
-							depLocationId, arrLocationId, Double.valueOf(txt_price.getText())
-					};
-			
-			sql.insertNewFlight(data);
-			
-			// TODO give confirmation or close window
+			// TODO close window
 		}
 	}
 
@@ -132,4 +132,24 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 
 	@Override
 	public void mouseReleased(MouseEvent e)	{	}
+	
+	private void insertData()
+	{
+		int depLocationId = AppManager.getAirportId((String) drp_depLocation.getSelectedItem());
+		int arrLocationId = AppManager.getAirportId((String) drp_arrLocation.getSelectedItem());
+		
+		Object[] data =
+				{
+						Integer.parseInt(txt_flightNum.getText()), dtp_depDate.getDate(),
+						dtp_arrDate.getDate(), spn_depTime.getValue(), spn_arrTime.getValue(),
+						depLocationId, arrLocationId, Double.valueOf(txt_price.getText())
+				};
+		
+		boolean insertSuccessful = AppManager.insertNewFlight(data);
+		if(insertSuccessful)
+		{
+			JOptionPane.showMessageDialog(this, "New flight data inserted successfully.",
+					"Successful Insert", JOptionPane.PLAIN_MESSAGE);
+		}
+	}
 }

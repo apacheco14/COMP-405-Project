@@ -11,6 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import userAccounts.Frm_AccountSettings;
 import userAccounts.Frm_NewUser;
@@ -31,13 +32,18 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 	private JMenu menu_flights = new JMenu("Flights");
 	private JMenuItem mi_newFlight = new MenuItem("New Flight", KeyEvent.VK_N, this);
 	private JMenuItem mi_bookFlight = new MenuItem("Book Flight", KeyEvent.VK_B, this);
+	private JMenuItem mi_cancelFlight = new MenuItem("Cancel Flight", KeyEvent.VK_C, this);
 	
 	private JMenu menu_settings = new JMenu("Settings");
 	private JMenuItem mi_systemSettings = new MenuItem("System Settings", KeyEvent.VK_S, this);
 	private JMenuItem mi_accountSettings = new MenuItem("Account Settings", KeyEvent.VK_A, this);
+	private JMenuItem mi_editLocations = new MenuItem("Edit Airport Locations", KeyEvent.VK_L, this);
 	
-	private Pnl_MenuImage menuImage = new Pnl_MenuImage();
+	private Pnl_MenuImage pnl_menuImage = new Pnl_MenuImage();
 	private Pnl_NewFlight pnl_newFlight = new Pnl_NewFlight();
+	private JPanel pnl_bookFlight = new JPanel();
+	private JPanel pnl_cancelFlight = new JPanel();
+	private JPanel pnl_editLocations = new JPanel();
 	
 	private User currentUser;
 	
@@ -52,29 +58,34 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 		setIconImage(AppManager.getIconImage());
 		addWindowListener(this);
 		
-		add(menuImage);
+		resetMainPanel();
 		
 		currentUser = user;
 		
 		menu_user.setMnemonic(KeyEvent.VK_U);
-		setAllowable(mi_newUser, User.MANAGER);
 		menu_user.add(mi_newUser);
 		menu_user.add(mi_logOff);
 		menu_user.add(mi_exit);
 		menuBar.add(menu_user);
 		
 		menu_flights.setMnemonic(KeyEvent.VK_F);
-		setAllowable(mi_newFlight, User.MANAGER);
 		menu_flights.add(mi_newFlight);
-		setAllowable(mi_bookFlight, User.EMPLOYEE);
 		menu_flights.add(mi_bookFlight);
+		menu_flights.add(mi_cancelFlight);
 		menuBar.add(menu_flights);
 		
 		menu_settings.setMnemonic(KeyEvent.VK_S);
 		menu_settings.add(mi_accountSettings);
-		setAllowable(mi_systemSettings, User.MANAGER);
 		menu_settings.add(mi_systemSettings);
+		menu_settings.add(mi_editLocations);
 		menuBar.add(menu_settings);
+		
+		setAllowable(mi_newUser, User.MANAGER);
+		setAllowable(mi_newFlight, User.MANAGER);
+		setAllowable(mi_bookFlight, User.EMPLOYEE);
+		setAllowable(mi_cancelFlight, User.MANAGER);
+		setAllowable(mi_systemSettings, User.MANAGER);
+		setAllowable(mi_editLocations, User.MANAGER);
 		
 		setJMenuBar(menuBar);
 		
@@ -98,47 +109,25 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 		}
 		else if(e.getSource().equals(mi_logOff))
 		{
-			switch(JOptionPane.showConfirmDialog(null, "Are you sure you wish to log off?", "Log off",
-					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE))
-			{
-			case JOptionPane.YES_OPTION:
-				currentUser.logOff();
-				switch(JOptionPane.showConfirmDialog(null, "Would you like to exit the program?", "Exit",
-						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE))
-				{
-				case JOptionPane.YES_OPTION:
-					dispose();
-					break;
-				default:
-					AppManager.startApp();
-					dispose();
-					break;
-				}
-			default:
-				break;
-			}
+			executeLogOffSequence();
 		}
 		else if(e.getSource().equals(mi_exit))
 		{
-			switch(JOptionPane.showConfirmDialog(null, "Are you sure you wish to exit?\n"
-					+ "You will be logged off and any unsaved changes will be lost.", "Exit",
-					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE))
-			{
-			case JOptionPane.YES_OPTION:
-				currentUser.logOff();
-				dispose();
-				System.exit(0);
-			default:
-				break;
-			}
+			executeExitSequence();
 		}
 		else if(e.getSource().equals(mi_newFlight))
 		{
-			menuImage.setVisible(false);
+			pnl_menuImage.setVisible(false);
 			add(pnl_newFlight);
 			pnl_newFlight.setVisible(true);
+			repaint();
+			validate();
 		}
 		else if(e.getSource().equals(mi_bookFlight))
+		{
+			
+		}
+		else if(e.getSource().equals(mi_cancelFlight))
 		{
 			
 		}
@@ -147,6 +136,10 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 			new Frm_AccountSettings(currentUser);
 		}
 		else if(e.getSource().equals(mi_systemSettings))
+		{
+			
+		}
+		else if(e.getSource().equals(mi_editLocations))
 		{
 			
 		}
@@ -175,4 +168,50 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 
 	@Override
 	public void windowDeactivated(WindowEvent e)	{	}
+	
+	private void resetMainPanel()
+	{
+		add(pnl_menuImage);
+		pnl_menuImage.setVisible(true);
+		repaint();
+		validate();
+	}
+	
+	private void executeLogOffSequence()
+	{
+		switch(JOptionPane.showConfirmDialog(null, "Are you sure you wish to log off?", "Log off",
+				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE))
+		{
+		case JOptionPane.YES_OPTION:
+			currentUser.logOff();
+			switch(JOptionPane.showConfirmDialog(null, "Would you like to exit the program?", "Exit",
+					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE))
+			{
+			case JOptionPane.YES_OPTION:
+				dispose();
+				break;
+			default:
+				AppManager.startApp();
+				dispose();
+				break;
+			}
+		default:
+			break;
+		}
+	}
+	
+	private void executeExitSequence()
+	{
+		switch(JOptionPane.showConfirmDialog(null, "Are you sure you wish to exit?\n"
+				+ "You will be logged off and any unsaved changes will be lost.", "Exit",
+				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE))
+		{
+		case JOptionPane.YES_OPTION:
+			currentUser.logOff();
+			dispose();
+			System.exit(0);
+		default:
+			break;
+		}
+	}
 }

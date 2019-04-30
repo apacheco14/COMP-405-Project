@@ -11,7 +11,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
-public class SqlConnection
+class SqlConnection
 {
 	// Database connectivity
 	private Connection connection;
@@ -44,7 +44,7 @@ public class SqlConnection
 		}
 	}
 
-	public Object[][] searchDatabase(String param)
+	Object[][] searchDatabase(String param)
 	{
 		if(param.equalsIgnoreCase(""))
 		{
@@ -98,7 +98,7 @@ public class SqlConnection
 	}
 	
 
-	public int getAirportId(String param)
+	int getAirportId(String param)
 	{
 		sql = "SELECT Id FROM Airport WHERE City LIKE ?";
 		
@@ -107,33 +107,28 @@ public class SqlConnection
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setString(1, param);
 			ResultSet result = stmt.executeQuery();
+			
 			return result.getInt(1);
 			
 		}
 		catch(Exception e1)
 		{
 			e1.printStackTrace();
+			return 0;
 		}
-		
-		return 0;
 	}
 
-	public ArrayList<String> getAirportLocations()
+	ArrayList<String> getAirportLocations()
 	{
-		sql = "SELECT City FROM Airport ORDER BY City ASC";
+		sql = "SELECT City, Code FROM Airport ORDER BY City ASC";
 		
 		try
 		{
 			PreparedStatement stmt = connection.prepareStatement(sql);
-			
 			ResultSet result = stmt.executeQuery();
-			
 			ArrayList<String> resultList = new ArrayList<String>();
-			
 			while(result.next())
-			{
-				resultList.add(result.getString("City"));
-			}
+				resultList.add(result.getString("City") + " (" + result.getString("Code") + ")");
 			
 			return resultList;
 			
@@ -141,12 +136,11 @@ public class SqlConnection
 		catch(Exception e1)
 		{
 			e1.printStackTrace();
+			return null;
 		}
-		
-		return null;
 	}
 	
-	public boolean insertNewFlight(Object[] data)
+	boolean insertNewFlight(Object[] data)
 	{
 		if(data.length == 8)
 		{
@@ -160,13 +154,13 @@ public class SqlConnection
 				PreparedStatement stmt = connection.prepareStatement(sql);
 				
 				// flight id is autoincremented
-				stmt.setDate(1, Date.valueOf(convertDateToZonedDateTime(data[1]).toLocalDate()));
-				stmt.setDate(2, Date.valueOf(convertDateToZonedDateTime(data[2]).toLocalDate()));
-				stmt.setTime(3, Time.valueOf(convertDateToZonedDateTime(data[3]).toLocalTime()));
-				stmt.setTime(4, Time.valueOf(convertDateToZonedDateTime(data[4]).toLocalTime()));
+				stmt.setDate(1, Date.valueOf( convertToZonedDateTime( data[1] ).toLocalDate() ));
+				stmt.setDate(2, Date.valueOf( convertToZonedDateTime( data[2] ).toLocalDate() ));
+				stmt.setTime(3, Time.valueOf( convertToZonedDateTime( data[3] ).toLocalTime() ));
+				stmt.setTime(4, Time.valueOf( convertToZonedDateTime( data[4] ).toLocalTime() ));
 				stmt.setInt(5, (int) data[5]);
 				stmt.setInt(6, (int) data[6]);
-				stmt.setDouble(7, ((Double) data[7]).doubleValue());
+				stmt.setDouble(7, (double) data[7]);
 				
 				stmt.executeUpdate();
 				
@@ -185,7 +179,7 @@ public class SqlConnection
 		}
 	}
 	
-	private ZonedDateTime convertDateToZonedDateTime(Object d)
+	private ZonedDateTime convertToZonedDateTime(Object d)
 	{
 		return ((java.util.Date) d).toInstant().atZone(ZoneId.of("America/New_York"));
 	}
