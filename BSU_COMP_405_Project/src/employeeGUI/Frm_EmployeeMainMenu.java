@@ -1,5 +1,6 @@
 package employeeGUI;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -40,7 +41,7 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 	private JMenuItem mi_editLocations = new MenuItem("Edit Airport Locations", KeyEvent.VK_L, this);
 	
 	private Pnl_MenuImage pnl_menuImage = new Pnl_MenuImage();
-	private Pnl_NewFlight pnl_newFlight = new Pnl_NewFlight();
+	private Pnl_NewFlight pnl_newFlight = new Pnl_NewFlight(this);
 	private JPanel pnl_bookFlight = new JPanel();
 	private JPanel pnl_cancelFlight = new JPanel();
 	private JPanel pnl_editLocations = new JPanel();
@@ -169,7 +170,12 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 	@Override
 	public void windowDeactivated(WindowEvent e)	{	}
 	
-	private void resetMainPanel()
+	public void remove(Component c)
+	{
+		
+	}
+	
+	public void resetMainPanel()
 	{
 		add(pnl_menuImage);
 		pnl_menuImage.setVisible(true);

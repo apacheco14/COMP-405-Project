@@ -4,11 +4,10 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import javax.swing.*;
-
 import org.jdesktop.swingx.JXDatePicker;
 
 import controller.AppManager;
@@ -48,8 +47,12 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 	private JButton btn_cancel = new JButton("Cancel");
 	private JButton btn_confirm = new JButton("Confirm");
 	
-	Pnl_NewFlight()
+	private Frm_EmployeeMainMenu window;
+	
+	Pnl_NewFlight(Frm_EmployeeMainMenu window)
 	{
+		this.window = window;
+		
 		this.setLayout(new GridLayout(8, 2, 5, 20));
 		
 		spn_depTime.setEditor(edt_depTime);
@@ -95,7 +98,9 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 					"Cancel New Flight Addition", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE))
 			{
 				case JOptionPane.YES_OPTION:
-					// TODO cancel
+					this.setVisible(false);
+					this.setEnabled(false);
+					window.resetMainPanel();
 					break;
 				case JOptionPane.NO_OPTION:
 					break;
@@ -103,37 +108,27 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 		}
 		else if(e.getSource().equals(btn_confirm))
 		{
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E MM/dd/yyyy");
+			SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("hh:mm a");
+			
 			switch(JOptionPane.showConfirmDialog(
 					this, "Are you sure you want to confirm this new flight?\n"
 							+ drp_depLocation.getSelectedItem() + " to "
 							+ drp_arrLocation.getSelectedItem() + " on\n"
-							+ dtp_depDate.getDate() + " at " + spn_depTime.getValue(),
+							+ simpleDateFormat.format(dtp_depDate.getDate())
+							+ " at " + simpleTimeFormat.format(spn_depTime.getValue()),
 					"Confirm New Flight Addition", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE))
 			{
 				case JOptionPane.YES_OPTION:
-					int depLocationId = AppManager.getAirportId((String) drp_depLocation.getSelectedItem());
-					int arrLocationId = AppManager.getAirportId((String) drp_arrLocation.getSelectedItem());
-					
-					Object[] data =
-							{
-									Integer.parseInt(txt_flightNum.getText()), dtp_depDate.getDate(),
-									dtp_arrDate.getDate(), spn_depTime.getValue(), spn_arrTime.getValue(),
-									depLocationId, arrLocationId, Double.valueOf(txt_price.getText())
-							};
-					
-					boolean insertSuccessful = AppManager.insertNewFlight(data);
-					if(insertSuccessful)
-					{
-						JOptionPane.showMessageDialog(this, "New flight data inserted successfully.",
-								"Successful Insert", JOptionPane.PLAIN_MESSAGE);
-					}
-					
+					insertData();
 					break;
 				case JOptionPane.NO_OPTION:
 					break;
 			}
 			
-			// TODO close window
+			this.setVisible(false);
+			this.setEnabled(false);
+			window.resetMainPanel();
 		}
 	}
 
@@ -149,8 +144,11 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 	@Override
 	public void mouseReleased(MouseEvent e)	{	}
 	
-	private void insertData(int depLocationId, int arrLocationId)
+	private void insertData()
 	{
+		int depLocationId = AppManager.getAirportId((String) drp_depLocation.getSelectedItem());
+		int arrLocationId = AppManager.getAirportId((String) drp_arrLocation.getSelectedItem());
+		
 		Object[] data =
 				{
 						Integer.parseInt(txt_flightNum.getText()), dtp_depDate.getDate(),
