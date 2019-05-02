@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 
 import customerGUI.Frm_CustomerBooking;
 import employeeGUI.Frm_EmployeeMainMenu;
-import startupGUI.Frm_Startup;
 import userAccounts.Frm_LogIn;
 import userAccounts.User;
 
@@ -43,12 +42,14 @@ public class AppManager
 	
 	public static String[] getColumnNames()
 	{
-		return new String[] {"artist_name", "album_title"};
+		return null;
+		//return new String[] {"artist_name", "album_title"};
 	}
 	
 	public static Object[][] searchDatabase(String param)
 	{
-		return sql.searchDatabase(param);
+		return null;
+		//return sql.searchDatabase(param);
 	}
 	
 	public static int getAirportId(String param)
