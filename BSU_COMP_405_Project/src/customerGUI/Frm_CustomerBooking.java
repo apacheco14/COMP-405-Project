@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -51,11 +50,8 @@ public class Frm_CustomerBooking extends JFrame implements ActionListener, Windo
 	private Tbl_Flights tbl_flights = new Tbl_Flights();
 	private JScrollPane scr_flightsPane = new JScrollPane(tbl_flights);
 	
-	// after picking flight and seat
-	private Pnl_BookFlight pnl_booking = new Pnl_BookFlight();
-	
-	private JButton btn_cancel = new JButton("Cancel");
-	private JButton btn_confirm = new JButton("Confirm");
+	// id customer and confirm booking
+	private JButton btn_confirm = new JButton("Book Flight");
 	
 	public Frm_CustomerBooking()
 	{
@@ -63,9 +59,9 @@ public class Frm_CustomerBooking extends JFrame implements ActionListener, Windo
 		
 		contentPane.add(pnl_search);
 		contentPane.add(scr_flightsPane);
-		contentPane.add(pnl_booking);
-		contentPane.add(btn_cancel);
 		contentPane.add(btn_confirm);
+		
+		btn_confirm.addActionListener(this);
 		
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		setContentPane(contentPane);
@@ -116,11 +112,12 @@ public class Frm_CustomerBooking extends JFrame implements ActionListener, Windo
 	@Override
 	public void windowDeactivated(WindowEvent e)	{	}
 	
-	
 	@Override
-	public void actionPerformed(ActionEvent arg0)
+	public void actionPerformed(ActionEvent e)
 	{
-		// TODO Auto-generated method stub
-		
+		if(e.getSource().equals(btn_confirm))
+		{
+			new Frm_CustomerCredentials(0);
+		}
 	}
 }

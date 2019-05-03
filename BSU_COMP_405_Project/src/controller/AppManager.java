@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 
@@ -65,6 +66,26 @@ public class AppManager
 	public static boolean insertNewFlight(Object[] data)
 	{
 		return sql.insertNewFlight(data);
+	}
+	
+	public static String[] getAvailableSeats(int flightNumber)
+	{
+		/*return*/ sql.getAvailableSeats(flightNumber);
+		
+		// need placeholder so combo box works when customer is booking flight
+		String[] placeholderArray = {"1A", "1B", "1C", "2A", "2B", "2C"};
+		return placeholderArray;
+	}
+	
+	public static void bookFlight(int flightNumber, String seat,
+			String email, String firstName, String lastName, Date DOB)
+	{
+		// enter customer data if necessary
+		if(!sql.isCustomerInDatabase(email))
+			sql.insertNewCustomer(email, firstName, lastName, DOB);
+		
+		// enter booking data
+		sql.bookFlight(flightNumber, seat, email);
 	}
 	
 	public static Image getIconImage()

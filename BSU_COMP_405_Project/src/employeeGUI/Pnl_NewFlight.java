@@ -108,15 +108,15 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 		}
 		else if(e.getSource().equals(btn_confirm))
 		{
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E MM/dd/yyyy");
-			SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("hh:mm a");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("E MM/dd/yyyy");
+			SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
 			
 			switch(JOptionPane.showConfirmDialog(
 					this, "Are you sure you want to confirm this new flight?\n"
 							+ drp_depLocation.getSelectedItem() + " to "
 							+ drp_arrLocation.getSelectedItem() + " on\n"
-							+ simpleDateFormat.format(dtp_depDate.getDate())
-							+ " at " + simpleTimeFormat.format(spn_depTime.getValue()),
+							+ dateFormat.format(dtp_depDate.getDate())
+							+ " at " + timeFormat.format(spn_depTime.getValue()),
 					"Confirm New Flight Addition", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE))
 			{
 				case JOptionPane.YES_OPTION:

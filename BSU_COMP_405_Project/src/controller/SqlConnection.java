@@ -141,6 +141,31 @@ class SqlConnection
 		}
 	}
 	
+	String[] getAvailableSeats(int flightNumber)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	boolean isCustomerInDatabase(String email)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	void insertNewCustomer(String email, String firstName, String lastName,
+			java.util.Date dOB)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
+	void bookFlight(int flightNumber, String seat, String email)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
 	boolean insertNewFlight(Object[] data)
 	{
 		if(data.length == 8)

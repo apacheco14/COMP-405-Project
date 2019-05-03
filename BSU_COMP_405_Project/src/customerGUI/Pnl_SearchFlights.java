@@ -23,7 +23,7 @@ class Pnl_SearchFlights extends JPanel
 	private JXDatePicker dtp_arrDate = new JXDatePicker();
 	private JComboBox<String> drp_depLocation = new JComboBox<String>();
 	private JComboBox<String> drp_arrLocation = new JComboBox<String>();
-	private JSlider sld_price = new JSlider(); 
+	private JSlider sld_price = new JSlider();
 	
 	Pnl_SearchFlights()
 	{
