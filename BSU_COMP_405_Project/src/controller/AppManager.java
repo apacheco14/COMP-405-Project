@@ -44,7 +44,7 @@ public class AppManager
 		new Frm_CustomerBooking();
 	}
 	
-	public static String getAirportId(String param)
+	public static String getAirportCode(String param)
 	{
 		return sql.getAirportId(param);
 	}
@@ -59,9 +59,14 @@ public class AppManager
 		return sql.insertNewFlight(data);
 	}
 	
-	public static ArrayList<String> getAirplanes()
+	public static ArrayList<String> getAirplaneNames()
 	{
-		return sql.getAirplanes();
+		return sql.getAirplaneNames();
+	}
+	
+	public static int getAirplaneId(String name)
+	{
+		return sql.getAirplaneId(name);
 	}
 	
 	public static String[] getAvailableSeats(int flightNumber)

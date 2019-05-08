@@ -16,7 +16,7 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 {
 	private static final long serialVersionUID = 4245246633629876362L;
 	
-	// flight number
+	// airplane
 	// departure date/time
 	// departure location
 	// arrival date/time
@@ -25,15 +25,16 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 	// price
 	
 	private ArrayList<String> availableLocations = AppManager.getAirportLocations();
+	private ArrayList<String> airplanes = AppManager.getAirplaneNames();
 	
-	private JLabel lbl_flightNum = new JLabel("Flight Number");
+	private JLabel lbl_airplane = new JLabel("Airplane");
 	private JLabel lbl_depDate = new JLabel("Departure Date/Time");
 	private JLabel lbl_arrDate = new JLabel("Arrival Date/Time");
 	private JLabel lbl_depLocation = new JLabel("Departure Location");
 	private JLabel lbl_arrLocation = new JLabel("Arrival Location");
 	private JLabel lbl_price = new JLabel("Price");
 	
-	private JTextField txt_flightNum = new JTextField(15);
+	private JComboBox<String> drp_airplanes = new JComboBox<String>();
 	private JXDatePicker dtp_depDate = new JXDatePicker();
 	private JXDatePicker dtp_arrDate = new JXDatePicker();
 	private JSpinner spn_depTime = new JSpinner(new SpinnerDateModel());
@@ -55,6 +56,11 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 		
 		this.setLayout(new GridLayout(8, 2, 5, 20));
 		
+		for(String airplane : airplanes)
+		{
+			drp_airplanes.addItem(airplane);
+		}
+		
 		dtp_depDate.setDate(Date.valueOf(LocalDate.now()));
 		dtp_arrDate.setDate(Date.valueOf(LocalDate.now()));
 		
@@ -73,8 +79,8 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 		btn_cancel.addMouseListener(this);
 		btn_confirm.addMouseListener(this);
 		
-		this.add(lbl_flightNum);
-		this.add(txt_flightNum);
+		this.add(lbl_airplane);
+		this.add(drp_airplanes);
 		this.add(lbl_depDate);
 		this.add(lbl_arrDate);
 		this.add(dtp_depDate);
@@ -149,14 +155,15 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 	
 	private void insertData()
 	{
-		String depLocationId = AppManager.getAirportId((String) drp_depLocation.getSelectedItem());
-		String arrLocationId = AppManager.getAirportId((String) drp_arrLocation.getSelectedItem());
+		String depLocationId = AppManager.getAirportCode((String) drp_depLocation.getSelectedItem());
+		String arrLocationId = AppManager.getAirportCode((String) drp_arrLocation.getSelectedItem());
+		int airplaneId = AppManager.getAirplaneId((String) drp_airplanes.getSelectedItem());
 		
 		Object[] data =
 				{
-						Integer.parseInt(txt_flightNum.getText()), dtp_depDate.getDate(),
-						dtp_arrDate.getDate(), spn_depTime.getValue(), spn_arrTime.getValue(),
-						depLocationId, arrLocationId, Double.valueOf(txt_price.getText())
+						airplaneId, dtp_depDate.getDate(), dtp_arrDate.getDate(),
+						spn_depTime.getValue(), spn_arrTime.getValue(), depLocationId,
+						arrLocationId, Double.valueOf(txt_price.getText())
 				};
 		
 		boolean insertSuccessful = AppManager.insertNewFlight(data);

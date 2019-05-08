@@ -137,11 +137,18 @@ class SqlConnection
 		}
 	}
 	
-	ArrayList<String> getAirplanes()
+	ArrayList<String> getAirplaneNames()
 	{
 		// TODO
 		
 		return null;
+	}
+	
+	int getAirplaneId(String name)
+	{
+		// TODO
+		
+		return 0;
 	}
 	
 	String[] getAvailableSeats(int flightNumber)
@@ -250,22 +257,22 @@ class SqlConnection
 		if(data.length == 8)
 		{
 			sql = "INSERT INTO Flight"
-					+ "(departureDate, arrivalDate, departureTime,"
+					+ "(airplaneId, departureDate, arrivalDate, departureTime,"
 					+ "arrivalTime, departure, arrival, price)"
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
+					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			
 			try
 			{
 				PreparedStatement stmt = connection.prepareStatement(sql);
 				
-				// flight id is autoincremented
-				stmt.setDate(1, Date.valueOf( AppManager.convertToZonedDateTime( data[1] ).toLocalDate() ));
-				stmt.setDate(2, Date.valueOf( AppManager.convertToZonedDateTime( data[2] ).toLocalDate() ));
-				stmt.setTime(3, Time.valueOf( AppManager.convertToZonedDateTime( data[3] ).toLocalTime() ));
-				stmt.setTime(4, Time.valueOf( AppManager.convertToZonedDateTime( data[4] ).toLocalTime() ));
-				stmt.setInt(5, (int) data[5]);
-				stmt.setInt(6, (int) data[6]);
-				stmt.setDouble(7, (double) data[7]);
+				stmt.setInt(1, (int) data[0]);
+				stmt.setDate(2, Date.valueOf( AppManager.convertToZonedDateTime( data[1] ).toLocalDate() ));
+				stmt.setDate(3, Date.valueOf( AppManager.convertToZonedDateTime( data[2] ).toLocalDate() ));
+				stmt.setTime(4, Time.valueOf( AppManager.convertToZonedDateTime( data[3] ).toLocalTime() ));
+				stmt.setTime(5, Time.valueOf( AppManager.convertToZonedDateTime( data[4] ).toLocalTime() ));
+				stmt.setInt(6, (int) data[5]);
+				stmt.setInt(7, (int) data[6]);
+				stmt.setDouble(8, (double) data[7]);
 				
 				stmt.executeUpdate();
 				
