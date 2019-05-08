@@ -3,15 +3,22 @@ package customerGUI;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.jdesktop.swingx.JXDatePicker;
+
+import controller.AppManager;
 
 class Pnl_SearchFlights extends JPanel implements ActionListener, ChangeListener
 {
@@ -29,7 +36,7 @@ class Pnl_SearchFlights extends JPanel implements ActionListener, ChangeListener
 	private JXDatePicker dtp_arrDate = new JXDatePicker();
 	private JComboBox<String> drp_depLocation = new JComboBox<String>();
 	private JComboBox<String> drp_arrLocation = new JComboBox<String>();
-	private JSlider sld_maxPrice = new JSlider(0, 1000, 500);
+	private JSpinner spn_maxPrice = new JSpinner(new SpinnerNumberModel(100,50,Integer.MAX_VALUE,25));
 	
 	Pnl_SearchFlights(Frm_CustomerBooking window)
 	{
@@ -46,31 +53,52 @@ class Pnl_SearchFlights extends JPanel implements ActionListener, ChangeListener
 		this.add(dtp_arrDate);
 		this.add(drp_depLocation);
 		this.add(drp_arrLocation);
-		this.add(sld_maxPrice);
+		this.add(spn_maxPrice);
+		
+		dtp_depDate.setDate(Date.valueOf(LocalDate.now()));
+		dtp_arrDate.setDate(Date.valueOf(LocalDate.now()));
+		
+		ArrayList<String> airportLocations = AppManager.getAirportLocations();
+		for(String location : airportLocations)
+		{
+			drp_depLocation.addItem(location);
+			drp_arrLocation.addItem(location);
+		}
 		
 		dtp_depDate.addActionListener(this);
 		dtp_arrDate.addActionListener(this);
 		drp_depLocation.addActionListener(this);
 		drp_arrLocation.addActionListener(this);
-		sld_maxPrice.addChangeListener(this);
-		
-		sld_maxPrice.setMajorTickSpacing(250);
-		sld_maxPrice.setMinorTickSpacing(50);
-		sld_maxPrice.setSnapToTicks(true);
-		sld_maxPrice.setPaintTicks(true);
-		sld_maxPrice.setPaintLabels(true);
+		spn_maxPrice.addChangeListener(this);
 	}
 	
 	Object[] getSearchCriteria()
 	{
 		return new Object[] {dtp_depDate.getDate(), dtp_arrDate.getDate(),
 				drp_depLocation.getSelectedItem(), drp_arrLocation.getSelectedItem(),
-				sld_maxPrice.getValue()};
+				spn_maxPrice.getValue()};
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
+		Date today = Date.valueOf(LocalDate.now());
+		if(dtp_depDate.getDate().before(today))
+		{
+			dtp_depDate.setDate(today);
+		}
+		if(dtp_arrDate.getDate().before(today))
+		{
+			dtp_arrDate.setDate(today);
+		}
+		if(dtp_arrDate.getDate().before(dtp_depDate.getDate()))
+		{
+			// add one day
+			Calendar cal = Calendar.getInstance(); 
+			cal.setTime(dtp_depDate.getDate()); 
+			cal.add(Calendar.DATE, 1);
+			dtp_arrDate.setDate(cal.getTime());
+		}
 		window.refreshTable();
 	}
 

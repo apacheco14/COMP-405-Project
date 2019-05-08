@@ -11,7 +11,7 @@ class Tbl_Flights extends JTable implements TableModelListener
 {
 	private static final long serialVersionUID = -7111214612644360874L;
 	private DefaultTableModel model = new DefaultTableModel(
-			AppManager.searchDatabase(""), AppManager.getColumnNames());
+			AppManager.searchFlights(null), AppManager.getFlightColumnNames());
 	
 	protected Tbl_Flights()
 	{
@@ -20,12 +20,14 @@ class Tbl_Flights extends JTable implements TableModelListener
 		this.setPreferredScrollableViewportSize(new Dimension(735, 340));
 		this.setFillsViewportHeight(true);
 		this.setModel(model);
+		this.setRowSelectionAllowed(true);
+		this.setColumnSelectionAllowed(false);
 		model.addTableModelListener(this);
 	}
 	
 	public void updateTable(Object[][] newData)
 	{
-		model.setDataVector(newData, AppManager.getColumnNames());
+		model.setDataVector(newData, AppManager.getFlightColumnNames());
 		model.fireTableDataChanged();
 	}
 }

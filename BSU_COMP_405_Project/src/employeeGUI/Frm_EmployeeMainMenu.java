@@ -126,11 +126,11 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 		}
 		else if(e.getSource().equals(mi_bookFlight))
 		{
-			
+			// TODO
 		}
 		else if(e.getSource().equals(mi_cancelFlight))
 		{
-			
+			// TODO
 		}
 		else if(e.getSource().equals(mi_accountSettings))
 		{
@@ -138,11 +138,11 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 		}
 		else if(e.getSource().equals(mi_systemSettings))
 		{
-			
+			// TODO
 		}
 		else if(e.getSource().equals(mi_editLocations))
 		{
-			
+			// TODO
 		}
 	}
 

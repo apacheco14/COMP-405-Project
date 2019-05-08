@@ -44,20 +44,6 @@ public class AppManager
 		new Frm_CustomerBooking();
 	}
 	
-	public static String[] getColumnNames()
-	{
-		// TODO
-		return null;
-		//return new String[] {"artist_name", "album_title"};
-	}
-	
-	public static Object[][] searchDatabase(String param)
-	{
-		// TODO
-		return null;
-		//return sql.searchDatabase(param);
-	}
-	
 	public static int getAirportId(String param)
 	{
 		return sql.getAirportId(param);
@@ -81,6 +67,13 @@ public class AppManager
 		// need placeholder so combo box works when customer is booking flight
 		String[] placeholderArray = {"1A", "1B", "1C", "2A", "2B", "2C"};
 		return placeholderArray;
+	}
+	
+	public static String[] getFlightColumnNames()
+	{
+		// TODO
+		return null;
+		//return new String[] {"artist_name", "album_title"};
 	}
 	
 	public static Object[][] searchFlights(Object[] params)

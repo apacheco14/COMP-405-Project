@@ -11,7 +11,7 @@ class Tbl_Results extends JTable implements TableModelListener
 {
 	private static final long serialVersionUID = -7111214612644360874L;
 	private DefaultTableModel model = new DefaultTableModel(
-			AppManager.searchDatabase(""), AppManager.getColumnNames());
+			AppManager.searchDatabase(""), AppManager.getFlightColumnNames());
 	
 	protected Tbl_Results()
 	{
@@ -25,7 +25,7 @@ class Tbl_Results extends JTable implements TableModelListener
 	
 	public void updateTable(Object[][] newData)
 	{
-		model.setDataVector(newData, AppManager.getColumnNames());
+		model.setDataVector(newData, AppManager.getFlightColumnNames());
 		model.fireTableDataChanged();
 	}
 }

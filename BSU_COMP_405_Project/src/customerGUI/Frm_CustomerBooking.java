@@ -72,6 +72,8 @@ public class Frm_CustomerBooking extends JFrame implements ActionListener, Windo
 		setVisible(true);
 		setIconImage(AppManager.getIconImage());
 		addWindowListener(this);
+		
+		refreshTable();
 	}
 	
 	void refreshTable()
@@ -117,8 +119,18 @@ public class Frm_CustomerBooking extends JFrame implements ActionListener, Windo
 	{
 		if(e.getSource().equals(btn_confirm))
 		{
-			// TODO flightNumber
-			new Frm_CustomerCredentials(0);
+			if(tbl_flights.getSelectedRow() == -1)
+			{
+				JOptionPane.showMessageDialog(this, "No flight selected.\n"
+						+ "Select a flight in the table.", "Booking Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			else
+			{
+				int row = tbl_flights.getSelectedRow();
+				int col = 0;		// TODO need a way to make sure that this is right
+				new Frm_CustomerCredentials((Integer) tbl_flights.getValueAt(row, col));
+			}
 		}
 	}
 }

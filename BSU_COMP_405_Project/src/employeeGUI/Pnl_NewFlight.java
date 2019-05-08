@@ -55,6 +55,9 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 		
 		this.setLayout(new GridLayout(8, 2, 5, 20));
 		
+		dtp_depDate.setDate(Date.valueOf(LocalDate.now()));
+		dtp_arrDate.setDate(Date.valueOf(LocalDate.now()));
+		
 		spn_depTime.setEditor(edt_depTime);
 		spn_depTime.setValue(Date.valueOf(LocalDate.now()));
 		
