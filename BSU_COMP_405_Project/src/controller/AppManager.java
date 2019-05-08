@@ -69,14 +69,13 @@ public class AppManager
 		return sql.getAirplaneId(name);
 	}
 	
-	public static String[] getAvailableSeats(int flightNumber)
+	public static ArrayList<String> getAvailableSeats(int flightNumber)
 	{
-		// TODO
-		/*return*/ sql.getAvailableSeats(flightNumber);
+		return sql.getAvailableSeats(flightNumber);
 		
 		// need placeholder so combo box works when customer is booking flight
-		String[] placeholderArray = {"1A", "1B", "1C", "2A", "2B", "2C"};
-		return placeholderArray;
+		//String[] placeholderArray = {"1A", "1B", "1C", "2A", "2B", "2C"};
+		//return placeholderArray;
 	}
 	
 	public static String[] getFlightColumnNames()

@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -60,7 +61,7 @@ class Frm_CustomerCredentials extends JFrame implements WindowListener, MouseLis
 		add(dtp_DOB);
 		
 		add(lbl_seat);
-		String[] availableSeats = AppManager.getAvailableSeats(flightNumber);
+		ArrayList<String> availableSeats = AppManager.getAvailableSeats(flightNumber);
 		for(String seat : availableSeats)
 			drp_seat.addItem(seat);
 		add(drp_seat);

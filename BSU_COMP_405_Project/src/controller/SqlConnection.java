@@ -180,27 +180,69 @@ class SqlConnection
 		return 0;
 	}
 	
-	String[] getAvailableSeats(int flightNumber)
+	ArrayList<String> getAvailableSeats(int flightNumber)
 	{
-		// TODO Auto-generated method stub
-		sql = "SELECT Seat, Class, Price FROM Ticket WHERE " +
-				"Passenger IS NULL AND Flight LIKE ?";
+		ArrayList<String> tickets = new ArrayList<String>();
+		ArrayList<String> seats = new ArrayList<String>();
+		
+		// get rows and columns
+		sql = "SELECT Airplane.Columns, Airplane.Rows FROM Airplane " + 
+				"INNER JOIN Flight ON Flight.PlaneId = Airplane.Id " + 
+				"WHERE Flight.Number = ?";
+		
+		int rows = 0, cols = 0;
+		
 		try
 		{
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setString(1, String.valueOf(flightNumber));
 			ResultSet result = stmt.executeQuery();
-			String[] returnStr = new String[0]; //add size of result
-			while(result.next()) {
-				//returnStr[0];
+			
+			while(result.next())
+			{
+				rows = result.getInt("Rows");
+				cols = result.getInt("Columns");
 			}
-			return returnStr;
 		}
 		catch(Exception e1)
 		{
 			e1.printStackTrace();
 		}
-		return null;
+		
+		// get tickets
+		sql = "SELECT Seat, Class, Price FROM Ticket WHERE " +
+				"Passenger IS NOT NULL AND Flight LIKE ?";
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, String.valueOf(flightNumber));
+			ResultSet result = stmt.executeQuery();
+			
+			while(result.next())
+			{
+				tickets.add(result.getString("Seat"));
+			}
+		}
+		catch(Exception e1)
+		{
+			e1.printStackTrace();
+		}
+		
+		for(int r = 0; r < rows; r++)
+		{
+			for(int c = 0; c < cols; c++)
+			{
+				String seatLabel = String.valueOf(r) + 65 + c;
+				seats.add(seatLabel);
+			}
+		}
+		
+		for(String ticket : tickets)
+		{
+			seats.remove(ticket);
+		}
+		
+		return seats;
 	}
 	
 	boolean isCustomerInDatabase(String email)
@@ -287,8 +329,6 @@ class SqlConnection
 		{
 			e1.printStackTrace();
 		}
-		// TODO Auto-generated method stub
-		
 	}
 	
 	Object[][] searchFlights(Object[] params)
