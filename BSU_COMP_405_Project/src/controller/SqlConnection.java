@@ -225,7 +225,7 @@ class SqlConnection
 	
 	ArrayList<Object> getCustomer(String email)
 	{
-		sql = "SELECT FirstName, LastName FROM Customer WHERE Email = ?";
+		sql = "SELECT FirstName, LastName, DoB FROM Customer WHERE Email = ?";
 		
 		try
 		{
@@ -237,6 +237,7 @@ class SqlConnection
 			{
 				resultList.add(result.getString("FirstName"));
 				resultList.add(result.getString("LastName"));
+				resultList.add(result.getString("DoB"));
 			}
 			
 			return resultList;
@@ -252,25 +253,22 @@ class SqlConnection
 	void insertNewCustomer(String email, String firstName, String lastName,
 			java.util.Date DOB)
 	{
-		sql = "INSERT INTO Customer (Email, FirstName, LastName, BirthDay, BirthMonth, BirthYear) " +
-				"VALUES (?, ?, ?, ?, ?, ?)";
+		sql = "INSERT INTO Customer (Email, FirstName, LastName, DoB) " +
+				"VALUES (?, ?, ?, ?)";
 
-		try {
+		try
+		{
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setString(1, email);
 			stmt.setString(2, firstName);
 			stmt.setString(3, lastName);
-			stmt.setString(4, String.valueOf(DOB.getDay()));
-			stmt.setString(5, String.valueOf(DOB.getMonth()));
-			stmt.setString(6, String.valueOf(DOB.getYear()));
+			stmt.setDate(4, Date.valueOf( AppManager.convertToZonedDateTime(DOB).toLocalDate() ));
 			stmt.executeQuery();
 		}
 		catch(Exception e1)
 		{
 			e1.printStackTrace();
 		}
-		// TODO Auto-generated method stub
-		
 	}
 	
 	void bookFlight(int flightNumber, String seat, String email)

@@ -81,9 +81,8 @@ public class AppManager
 	
 	public static String[] getFlightColumnNames()
 	{
-		// TODO
-		return null;
-		//return new String[] {"artist_name", "album_title"};
+		return new String[] {"Number", "Departure", "DepartureDate", "DepartureTime",
+				"Arrival", "ArrivalDate", "ArrivalTime", "PlaneId"};
 	}
 	
 	public static Object[][] searchFlights(Object[] params)
@@ -126,9 +125,7 @@ public class AppManager
 	
 	public static Date getCustomerDOB(String email)
 	{
-		// TODO Auto-generated method stub
-		// return (String) sql.getCustomer(email)[index];
-		return null;
+		return (Date) sql.getCustomer(email).get(2);
 	}
 	
 	public static ZonedDateTime convertToZonedDateTime(Object d)
@@ -144,7 +141,6 @@ public class AppManager
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
