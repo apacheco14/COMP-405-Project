@@ -69,7 +69,7 @@ public class AppManager
 		return sql.getAirplaneId(name);
 	}
 	
-	public static ArrayList<String> getAvailableSeats(int flightNumber)
+	public static ArrayList<String[]> getAvailableSeats(int flightNumber)
 	{
 		return sql.getAvailableSeats(flightNumber);
 		

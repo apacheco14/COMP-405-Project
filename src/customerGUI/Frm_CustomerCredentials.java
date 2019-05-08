@@ -61,9 +61,9 @@ class Frm_CustomerCredentials extends JFrame implements WindowListener, MouseLis
 		add(dtp_DOB);
 		
 		add(lbl_seat);
-		ArrayList<String> availableSeats = AppManager.getAvailableSeats(flightNumber);
-		for(String seat : availableSeats)
-			drp_seat.addItem(seat);
+		ArrayList<String[]> availableSeats = AppManager.getAvailableSeats(flightNumber);
+		for(String[] seat : availableSeats)
+			drp_seat.addItem(seat[0]);
 		add(drp_seat);
 		
 		btn_cancel.addMouseListener(this);
