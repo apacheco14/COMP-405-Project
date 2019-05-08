@@ -29,8 +29,7 @@ public class UsersManager
 	{
 		try
 		{
-			//Scanner reader = new Scanner(new File("Resources/User List.txt"));
-			Scanner reader = new Scanner(new File("Resources/UserList.txt"));
+			Scanner reader = new Scanner(new File("Resources/User List.txt"));
 
 			while(reader.hasNextLine())
 			{
