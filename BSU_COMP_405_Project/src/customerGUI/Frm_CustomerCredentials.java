@@ -1,6 +1,8 @@
 package customerGUI;
 
 import java.awt.GridLayout;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -18,9 +20,8 @@ import org.jdesktop.swingx.JXDatePicker;
 
 import controller.AppManager;
 
-class Frm_CustomerCredentials extends JFrame implements WindowListener, MouseListener
+class Frm_CustomerCredentials extends JFrame implements WindowListener, MouseListener, FocusListener
 {
-	
 	private static final long serialVersionUID = -4814860646995801896L;
 	
 	private JLabel lbl_email = new JLabel("Email");
@@ -46,6 +47,7 @@ class Frm_CustomerCredentials extends JFrame implements WindowListener, MouseLis
 		this.flightNumber = flightNumber;
 		
 		add(lbl_email);
+		txt_email.addFocusListener(this);
 		add(txt_email);
 		
 		add(lbl_firstName);
@@ -78,6 +80,41 @@ class Frm_CustomerCredentials extends JFrame implements WindowListener, MouseLis
 		addWindowListener(this);
 	}
 	
+	private void setCustomerDetails(String email)
+	{
+		if(AppManager.isCustomerInDatabase(email))
+		{
+			txt_firstName.setText(AppManager.getCustomerFirstName(email));
+			txt_firstName.setEditable(false);
+			
+			txt_lastName.setText(AppManager.getCustomerLastName(email));
+			txt_lastName.setEditable(false);
+			
+			dtp_DOB.setDate(AppManager.getCustomerDOB(email));
+			dtp_DOB.setEditable(false);
+		}
+		else
+		{
+			txt_firstName.setEditable(true);
+			txt_lastName.setEditable(true);
+			dtp_DOB.setEditable(true);
+		}
+	}
+	
+	private void executeExitSequence()
+	{
+		switch(JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?\n"
+				+ "Your flight booking will be cancelled.", "Exit",
+				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE))
+		{
+		case JOptionPane.YES_OPTION:
+			dispose();
+			System.exit(0);
+		default:
+			break;
+		}
+	}
+	
 	private void confirmBooking()
 	{
 		String email = txt_email.getText();
@@ -97,20 +134,6 @@ class Frm_CustomerCredentials extends JFrame implements WindowListener, MouseLis
 				break;
 			case JOptionPane.NO_OPTION:
 				break;
-		}
-	}
-	
-	private void executeExitSequence()
-	{
-		switch(JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?\n"
-				+ "Your flight booking will be cancelled.", "Exit",
-				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE))
-		{
-		case JOptionPane.YES_OPTION:
-			dispose();
-			System.exit(0);
-		default:
-			break;
 		}
 	}
 
@@ -162,4 +185,13 @@ class Frm_CustomerCredentials extends JFrame implements WindowListener, MouseLis
 
 	@Override
 	public void mouseReleased(MouseEvent e)	{	}
+	
+	@Override
+	public void focusGained(FocusEvent e)	{	}
+
+	@Override
+	public void focusLost(FocusEvent e)
+	{
+		setCustomerDetails(txt_email.getText());
+	}
 }

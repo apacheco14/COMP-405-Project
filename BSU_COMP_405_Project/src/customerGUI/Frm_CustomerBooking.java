@@ -22,7 +22,7 @@ public class Frm_CustomerBooking extends JFrame implements ActionListener, Windo
 	 * 
 	 * enter email
 	 * if new customer, ask for more information
-	 * if already in database ask for password
+	 * if already in database ask for password		--- maybe not
 	 * 
 	 * 
 	 * Flight number
@@ -44,7 +44,7 @@ public class Frm_CustomerBooking extends JFrame implements ActionListener, Windo
 	private JPanel contentPane = new JPanel();
 	
 	// flight search parameters
-	private Pnl_SearchFlights pnl_search = new Pnl_SearchFlights();
+	private Pnl_SearchFlights pnl_search = new Pnl_SearchFlights(this);
 	
 	// flight options
 	private Tbl_Flights tbl_flights = new Tbl_Flights();
@@ -74,14 +74,14 @@ public class Frm_CustomerBooking extends JFrame implements ActionListener, Windo
 		addWindowListener(this);
 	}
 	
-	private void refreshTable()
+	void refreshTable()
 	{
-		tbl_flights.updateTable(AppManager.searchDatabase(""));
+		tbl_flights.updateTable(AppManager.searchFlights(pnl_search.getSearchCriteria()));
 	}
 	
 	@Override
 	public void windowOpened(WindowEvent e)	{	}
-
+	
 	@Override
 	public void windowClosing(WindowEvent e)
 	{
@@ -117,6 +117,7 @@ public class Frm_CustomerBooking extends JFrame implements ActionListener, Windo
 	{
 		if(e.getSource().equals(btn_confirm))
 		{
+			// TODO flightNumber
 			new Frm_CustomerCredentials(0);
 		}
 	}

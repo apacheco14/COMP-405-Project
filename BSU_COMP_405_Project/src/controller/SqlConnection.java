@@ -7,8 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 class SqlConnection
@@ -149,12 +147,32 @@ class SqlConnection
 	
 	boolean isCustomerInDatabase(String email)
 	{
-		// TODO Auto-generated method stub
+		sql = "SELECT email FROM Customer WHERE email = ?";
+		
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, email);
+			ResultSet result = stmt.executeQuery();
+			
+			return result.next();	// returns true if there is a first row, false otherwise
+		}
+		catch(Exception e1)
+		{
+			e1.printStackTrace();
+		}
+		
 		return false;
 	}
 	
+	Object[] getCustomer(String email)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	void insertNewCustomer(String email, String firstName, String lastName,
-			java.util.Date dOB)
+			java.util.Date DOB)
 	{
 		// TODO Auto-generated method stub
 		
@@ -164,6 +182,13 @@ class SqlConnection
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	
+	Object[][] searchFlights(Object[] params)
+	{
+		// TODO
+		
+		return null;
 	}
 	
 	boolean insertNewFlight(Object[] data)
@@ -180,10 +205,10 @@ class SqlConnection
 				PreparedStatement stmt = connection.prepareStatement(sql);
 				
 				// flight id is autoincremented
-				stmt.setDate(1, Date.valueOf( convertToZonedDateTime( data[1] ).toLocalDate() ));
-				stmt.setDate(2, Date.valueOf( convertToZonedDateTime( data[2] ).toLocalDate() ));
-				stmt.setTime(3, Time.valueOf( convertToZonedDateTime( data[3] ).toLocalTime() ));
-				stmt.setTime(4, Time.valueOf( convertToZonedDateTime( data[4] ).toLocalTime() ));
+				stmt.setDate(1, Date.valueOf( AppManager.convertToZonedDateTime( data[1] ).toLocalDate() ));
+				stmt.setDate(2, Date.valueOf( AppManager.convertToZonedDateTime( data[2] ).toLocalDate() ));
+				stmt.setTime(3, Time.valueOf( AppManager.convertToZonedDateTime( data[3] ).toLocalTime() ));
+				stmt.setTime(4, Time.valueOf( AppManager.convertToZonedDateTime( data[4] ).toLocalTime() ));
 				stmt.setInt(5, (int) data[5]);
 				stmt.setInt(6, (int) data[6]);
 				stmt.setDouble(7, (double) data[7]);
@@ -203,10 +228,5 @@ class SqlConnection
 		{
 			return false;
 		}
-	}
-	
-	private ZonedDateTime convertToZonedDateTime(Object d)
-	{
-		return ((java.util.Date) d).toInstant().atZone(ZoneId.of("America/New_York"));
 	}
 }
