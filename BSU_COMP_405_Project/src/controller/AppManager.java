@@ -109,24 +109,19 @@ public class AppManager
 		return sql.isCustomerInDatabase(email);
 	}
 	
-	public static Object[] getCustomer(String email)
+	public static ArrayList<Object> getCustomer(String email)
 	{
-		// TODO Auto-generated method stub
 		return sql.getCustomer(email);
 	}
 	
 	public static String getCustomerFirstName(String email)
 	{
-		// TODO Auto-generated method stub
-		// return (String) sql.getCustomer(email)[index];
-		return "";
+		return (String) sql.getCustomer(email).get(0);
 	}
 	
 	public static String getCustomerLastName(String email)
 	{
-		// TODO Auto-generated method stub
-		// return (String) sql.getCustomer(email)[index];
-		return "";
+		return (String) sql.getCustomer(email).get(1);
 	}
 	
 	public static Date getCustomerDOB(String email)

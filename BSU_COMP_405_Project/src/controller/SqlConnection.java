@@ -139,14 +139,43 @@ class SqlConnection
 	
 	ArrayList<String> getAirplaneNames()
 	{
-		// TODO
+		sql = "SELECT Name FROM Airplane";
 		
-		return null;
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			ResultSet result = stmt.executeQuery();
+			ArrayList<String> resultList = new ArrayList<String>();
+			while(result.next())
+				resultList.add(result.getString("Name"));
+			
+			return resultList;
+			
+		}
+		catch(Exception e1)
+		{
+			e1.printStackTrace();
+			return null;
+		}
 	}
 	
 	int getAirplaneId(String name)
 	{
-		// TODO
+		sql = "SELECT Id FROM Airplane WHERE Name LIKE ?";
+		
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, name);
+			ResultSet result = stmt.executeQuery();
+			
+			while(result.next())
+				return result.getInt(1);
+		}
+		catch(Exception e1)
+		{
+			e1.printStackTrace();
+		}
 		
 		return 0;
 	}
@@ -194,10 +223,29 @@ class SqlConnection
 		return false;
 	}
 	
-	Object[] getCustomer(String email)
+	ArrayList<Object> getCustomer(String email)
 	{
-		// TODO Auto-generated method stub
-		sql = "SELECT ";
+		sql = "SELECT FirstName, LastName FROM Customer WHERE Email = ?";
+		
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, email);
+			ResultSet result = stmt.executeQuery();
+			ArrayList<Object> resultList = new ArrayList<Object>();
+			while(result.next())
+			{
+				resultList.add(result.getString("FirstName"));
+				resultList.add(result.getString("LastName"));
+			}
+			
+			return resultList;
+		}
+		catch(Exception e1)
+		{
+			e1.printStackTrace();
+		}
+		
 		return null;
 	}
 	
