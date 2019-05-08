@@ -26,7 +26,6 @@ class SqlConnection
 		}
 		catch (ClassNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -37,7 +36,6 @@ class SqlConnection
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -137,6 +135,13 @@ class SqlConnection
 			e1.printStackTrace();
 			return null;
 		}
+	}
+	
+	ArrayList<String> getAirplanes()
+	{
+		// TODO
+		
+		return null;
 	}
 	
 	String[] getAvailableSeats(int flightNumber)

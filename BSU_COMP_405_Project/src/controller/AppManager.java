@@ -59,6 +59,11 @@ public class AppManager
 		return sql.insertNewFlight(data);
 	}
 	
+	public static ArrayList<String> getAirplanes()
+	{
+		return sql.getAirplanes();
+	}
+	
 	public static String[] getAvailableSeats(int flightNumber)
 	{
 		// TODO
