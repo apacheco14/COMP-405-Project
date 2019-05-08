@@ -149,8 +149,8 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 	
 	private void insertData()
 	{
-		int depLocationId = AppManager.getAirportId((String) drp_depLocation.getSelectedItem());
-		int arrLocationId = AppManager.getAirportId((String) drp_arrLocation.getSelectedItem());
+		String depLocationId = AppManager.getAirportId((String) drp_depLocation.getSelectedItem());
+		String arrLocationId = AppManager.getAirportId((String) drp_arrLocation.getSelectedItem());
 		
 		Object[] data =
 				{

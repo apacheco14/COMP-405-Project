@@ -97,9 +97,9 @@ class SqlConnection
 	}
 	
 
-	int getAirportId(String param)
+	String getAirportId(String param)
 	{
-		sql = "SELECT Id FROM Airport WHERE City LIKE ?";
+		sql = "SELECT Code FROM Airport WHERE City LIKE ?";
 		
 		try
 		{
@@ -108,13 +108,13 @@ class SqlConnection
 			ResultSet result = stmt.executeQuery();
 			
 			while(result.next())
-				return result.getInt(1);
+				return result.getString(1);
 		}
 		catch(Exception e1)
 		{
 			e1.printStackTrace();
 		}
-		return 0;
+		return "";
 	}
 
 	ArrayList<String> getAirportLocations()
@@ -142,6 +142,23 @@ class SqlConnection
 	String[] getAvailableSeats(int flightNumber)
 	{
 		// TODO Auto-generated method stub
+		sql = "SELECT Seat, Class, Price FROM Ticket WHERE " +
+				"Passenger IS NULL AND Flight LIKE ?";
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, String.valueOf(flightNumber));
+			ResultSet result = stmt.executeQuery();
+			String[] returnStr = new String[0]; //add size of result
+			while(result.next()) {
+				//returnStr[0];
+			}
+			return returnStr;
+		}
+		catch(Exception e1)
+		{
+			e1.printStackTrace();
+		}
 		return null;
 	}
 	
@@ -168,18 +185,50 @@ class SqlConnection
 	Object[] getCustomer(String email)
 	{
 		// TODO Auto-generated method stub
+		sql = "SELECT ";
 		return null;
 	}
 	
 	void insertNewCustomer(String email, String firstName, String lastName,
 			java.util.Date DOB)
 	{
+		sql = "INSERT INTO Customer (Email, FirstName, LastName, BirthDay, BirthMonth, BirthYear) " +
+				"VALUES (?, ?, ?, ?, ?, ?)";
+
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, email);
+			stmt.setString(2, firstName);
+			stmt.setString(3, lastName);
+			stmt.setString(4, String.valueOf(DOB.getDay()));
+			stmt.setString(5, String.valueOf(DOB.getMonth()));
+			stmt.setString(6, String.valueOf(DOB.getYear()));
+			stmt.executeQuery();
+		}
+		catch(Exception e1)
+		{
+			e1.printStackTrace();
+		}
 		// TODO Auto-generated method stub
 		
 	}
 	
 	void bookFlight(int flightNumber, String seat, String email)
 	{
+		sql = "INSERT INTO Ticket (Passenger, Flight, Seat) " +
+				"VALUES (?, ?, ?)";
+
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, email);
+			stmt.setString(2, String.valueOf(flightNumber));
+			stmt.setString(3, seat);
+			stmt.executeQuery();
+		}
+		catch(Exception e1)
+		{
+			e1.printStackTrace();
+		}
 		// TODO Auto-generated method stub
 		
 	}

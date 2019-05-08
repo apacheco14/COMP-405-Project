@@ -29,8 +29,9 @@ public class UsersManager
 	{
 		try
 		{
-			Scanner reader = new Scanner(new File("Resources/User List.txt"));
-			
+			//Scanner reader = new Scanner(new File("Resources/User List.txt"));
+			Scanner reader = new Scanner(new File("Resources/UserList.txt"));
+
 			while(reader.hasNextLine())
 			{
 				users.add(new User(reader.nextLine(), reader.nextLine(), reader.nextLine(),

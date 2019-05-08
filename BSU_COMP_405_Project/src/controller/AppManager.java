@@ -44,7 +44,7 @@ public class AppManager
 		new Frm_CustomerBooking();
 	}
 	
-	public static int getAirportId(String param)
+	public static String getAirportId(String param)
 	{
 		return sql.getAirportId(param);
 	}
