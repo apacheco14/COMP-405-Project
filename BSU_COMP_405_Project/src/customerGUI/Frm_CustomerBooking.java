@@ -18,31 +18,6 @@ public class Frm_CustomerBooking extends JFrame implements ActionListener, Windo
 {
 	private static final long serialVersionUID = -4132683384953637172L;
 	
-	/*
-	 * filter by all flight parameters
-	 * after picking flight, show available seats
-	 * 
-	 * enter email
-	 * if new customer, ask for more information
-	 * if already in database ask for password		--- maybe not
-	 * 
-	 * 
-	 * Flight number
-	 * Depart location
-	 * arriving location
-	 * date/times
-	 * seat
-	 * class
-	 * price
-	 * 
-	 * 
-	 * Name
-	 * DOB
-	 * email address
-	 * payment info (address and credit card)
-	 */
-	
-	
 	private JPanel contentPane = new JPanel();
 	
 	// flight search parameters

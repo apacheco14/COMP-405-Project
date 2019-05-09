@@ -14,8 +14,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import userAccounts.Frm_AccountSettings;
 import userAccounts.Frm_NewUser;
 import userAccounts.User;
@@ -44,9 +42,8 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 	
 	private Pnl_MenuImage pnl_menuImage = new Pnl_MenuImage();
 	private Pnl_NewFlight pnl_newFlight = new Pnl_NewFlight(this);
-	private JPanel pnl_bookFlight = new JPanel();				//placeholder
-	private JPanel pnl_cancelFlight = new JPanel();				//placeholder
-	private JPanel pnl_editLocations = new JPanel();			//placeholder
+//	private JPanel pnl_cancelFlight = new JPanel();				//placeholder
+//	private JPanel pnl_editLocations = new JPanel();			//placeholder
 	
 	private User currentUser;
 	
@@ -129,7 +126,9 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 		}
 		else if(e.getSource().equals(mi_bookFlight))
 		{
-			// TODO
+			AppManager.startCustomerVersion();
+			currentUser.logOff();
+			this.dispose();
 		}
 		else if(e.getSource().equals(mi_cancelFlight))
 		{
