@@ -21,8 +21,7 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 	// departure location
 	// arrival date/time
 	// arrival location
-	// airplane ?
-	// price
+	// airplane
 	
 	private ArrayList<String> availableLocations = AppManager.getAirportLocations();
 	private ArrayList<String> airplanes = AppManager.getAirplaneNames();
@@ -32,7 +31,6 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 	private JLabel lbl_arrDate = new JLabel("Arrival Date/Time");
 	private JLabel lbl_depLocation = new JLabel("Departure Location");
 	private JLabel lbl_arrLocation = new JLabel("Arrival Location");
-	private JLabel lbl_price = new JLabel("Price");
 	
 	private JComboBox<String> drp_airplanes = new JComboBox<String>();
 	private JXDatePicker dtp_depDate = new JXDatePicker();
@@ -43,7 +41,6 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 	private JSpinner.DateEditor edt_arrTime = new JSpinner.DateEditor(spn_arrTime, "hh:mm a");
 	private JComboBox<String> drp_depLocation = new JComboBox<String>();
 	private JComboBox<String> drp_arrLocation = new JComboBox<String>();
-	private JTextField txt_price = new JTextField(15);
 	
 	private JButton btn_cancel = new JButton("Cancel");
 	private JButton btn_confirm = new JButton("Confirm");
@@ -54,7 +51,7 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 	{
 		this.window = window;
 		
-		this.setLayout(new GridLayout(8, 2, 5, 20));
+		this.setLayout(new GridLayout(7, 2, 5, 20));
 		
 		for(String airplane : airplanes)
 		{
@@ -91,8 +88,6 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 		this.add(lbl_arrLocation);
 		this.add(drp_depLocation);
 		this.add(drp_arrLocation);
-		this.add(lbl_price);
-		this.add(txt_price);
 		this.add(btn_cancel);
 		this.add(btn_confirm);
 	}
@@ -163,7 +158,7 @@ class Pnl_NewFlight extends JPanel implements MouseListener
 				{
 						airplaneId, dtp_depDate.getDate(), dtp_arrDate.getDate(),
 						spn_depTime.getValue(), spn_arrTime.getValue(), depLocationId,
-						arrLocationId, Double.valueOf(txt_price.getText())
+						arrLocationId
 				};
 		
 		boolean insertSuccessful = AppManager.insertNewFlight(data);

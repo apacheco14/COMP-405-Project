@@ -288,7 +288,6 @@ class SqlConnection
 		if(depDate != null)
 		{
 			sql = sql + "DepartureDate = ? ";
-			System.out.println(depDate);
 			isDepDate = true;
 		}
 		if(arrDate != null)
@@ -311,8 +310,6 @@ class SqlConnection
 			sql = sql + "ORDER BY Flight.Number ASC";
 		else
 			sql = sql + "Flight.Number > 0 ORDER BY Flight.Number ASC";
-		
-		System.out.println(sql);
 		
 		try
 		{
@@ -342,9 +339,6 @@ class SqlConnection
 						result.getString("ArrivalDate"),
 						result.getString("ArrivalTime"),
 						result.getInt("PlaneId")});
-				
-				System.out.println(result.getString("Departure") + " "
-						+ result.getString("Arrival"));
 			}
 			
 			Object[][] data = new Object[resultList.size()][numColumns];
@@ -355,7 +349,6 @@ class SqlConnection
 				rowCounter++;
 			}
 			
-			System.out.println("Returning ... " + data.length);
 			return data;
 			
 		}
@@ -369,7 +362,7 @@ class SqlConnection
 	
 	boolean insertNewFlight(Object[] data)
 	{
-		if(data.length == 8)
+		if(data.length == 7)
 		{
 			sql = "INSERT INTO Flight"
 					+ "(Departure, DepartureDate, DepartureTime, Arrival, ArrivalDate,"

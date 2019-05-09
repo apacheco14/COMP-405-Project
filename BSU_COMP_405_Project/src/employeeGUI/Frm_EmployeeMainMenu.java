@@ -51,7 +51,7 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 	public Frm_EmployeeMainMenu(User user)
 	{
 		super("Airline Database Management System");
-		setSize(768 + 6, 446 + 52);
+		setSize(768 + 6, 386 + 52);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

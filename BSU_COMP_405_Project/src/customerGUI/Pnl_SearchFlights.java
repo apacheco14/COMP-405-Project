@@ -30,30 +30,26 @@ class Pnl_SearchFlights extends JPanel implements ActionListener, ChangeListener
 	private JLabel lbl_arrDate = new JLabel("Arrival Date");
 	private JLabel lbl_depLocation = new JLabel("Departure Location");
 	private JLabel lbl_arrLocation = new JLabel("Arrival Location");
-	private JLabel lbl_maxPrice = new JLabel("Max Price");
 	
 	private JXDatePicker dtp_depDate = new JXDatePicker();
 	private JXDatePicker dtp_arrDate = new JXDatePicker();
 	private JComboBox<String> drp_depLocation = new JComboBox<String>();
 	private JComboBox<String> drp_arrLocation = new JComboBox<String>();
-	private JSpinner spn_maxPrice = new JSpinner(new SpinnerNumberModel(100,50,Integer.MAX_VALUE,25));
 	
 	Pnl_SearchFlights(Frm_CustomerBooking window)
 	{
 		this.window = window;
 		
-		this.setLayout(new GridLayout(2, 5, 10, 5));
+		this.setLayout(new GridLayout(2, 4, 10, 5));
 		this.add(lbl_depDate);
 		this.add(lbl_arrDate);
 		this.add(lbl_depLocation);
 		this.add(lbl_arrLocation);
-		this.add(lbl_maxPrice);
 		
 		this.add(dtp_depDate);
 		this.add(dtp_arrDate);
 		this.add(drp_depLocation);
 		this.add(drp_arrLocation);
-		this.add(spn_maxPrice);
 		
 		dtp_depDate.setDate(Date.valueOf(LocalDate.now()));
 		dtp_arrDate.setDate(Date.valueOf(LocalDate.now()));
@@ -69,14 +65,12 @@ class Pnl_SearchFlights extends JPanel implements ActionListener, ChangeListener
 		dtp_arrDate.addActionListener(this);
 		drp_depLocation.addActionListener(this);
 		drp_arrLocation.addActionListener(this);
-		spn_maxPrice.addChangeListener(this);
 	}
 	
 	Object[] getSearchCriteria()
 	{
 		return new Object[] {dtp_depDate.getDate(), dtp_arrDate.getDate(),
-				drp_depLocation.getSelectedItem(), drp_arrLocation.getSelectedItem(),
-				spn_maxPrice.getValue()};
+				drp_depLocation.getSelectedItem(), drp_arrLocation.getSelectedItem()};
 	}
 
 	@Override
