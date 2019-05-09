@@ -72,16 +72,12 @@ public class AppManager
 	public static ArrayList<String> getAvailableSeats(int flightNumber)
 	{
 		return sql.getAvailableSeats(flightNumber);
-		
-		// need placeholder so combo box works when customer is booking flight
-		//String[] placeholderArray = {"1A", "1B", "1C", "2A", "2B", "2C"};
-		//return placeholderArray;
 	}
 	
 	public static String[] getFlightColumnNames()
 	{
-		return new String[] {"Number", "Departure", "DepartureDate", "DepartureTime",
-				"Arrival", "ArrivalDate", "ArrivalTime", "PlaneId"};
+		return new String[] {"Flight Number", "Departure", "Departure Date", "Departure Time",
+				"Arrival", "Arrival Date", "Arrival Time", "Airplane"};
 	}
 	
 	public static Object[][] searchFlights(Object[] criteria)
@@ -98,7 +94,14 @@ public class AppManager
 		if(arrDate != (null))
 			arrDateSQL = java.sql.Date.valueOf(convertToZonedDateTime(arrDate).toLocalDate());
 		
-		return sql.searchFlights(depDateSQL, arrDateSQL, depLocation, arrLocation);
+		Object[][] flights = sql.searchFlights(depDateSQL, arrDateSQL, depLocation, arrLocation);
+		
+		for(Object[] flight : flights)
+		{
+			flight[7] = sql.getAirplane((int) flight[7]);
+		}
+		
+		return flights;
 	}
 	
 	public static void bookFlight(int flightNumber, String seat,

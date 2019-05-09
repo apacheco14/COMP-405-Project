@@ -129,6 +129,27 @@ class SqlConnection
 		return 0;
 	}
 	
+	Object getAirplane(int id)
+	{
+		sql = "SELECT Name FROM Airplane WHERE Id = ?";
+		
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, id);
+			ResultSet result = stmt.executeQuery();
+			
+			while(result.next())
+				return result.getString(1);
+		}
+		catch(Exception e1)
+		{
+			e1.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	ArrayList<String> getAvailableSeats(int flightNumber)
 	{
 		ArrayList<String> tickets = new ArrayList<String>();
