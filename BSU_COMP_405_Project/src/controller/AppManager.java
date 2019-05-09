@@ -84,23 +84,29 @@ public class AppManager
 				"Arrival", "ArrivalDate", "ArrivalTime", "PlaneId"};
 	}
 	
-	public static Object[][] searchFlights(java.util.Date depDate, java.util.Date arrDate,
-			String depLocation, String arrLocation, double maxPrice)
+	public static Object[][] searchFlights(Object[] criteria)
 	{
-		java.sql.Date depDateSQL =
-				java.sql.Date.valueOf(convertToZonedDateTime(depDate).toLocalDate());
-		java.sql.Date arrDateSQL =
-				java.sql.Date.valueOf(convertToZonedDateTime(arrDate).toLocalDate());
+		java.util.Date depDate = (Date) criteria[0];
+		java.util.Date arrDate = (Date) criteria[1];
+		String depLocation = (String) criteria[2];
+		String arrLocation = (String) criteria[3];
 		
-		return sql.searchFlights(depDateSQL, arrDateSQL, depLocation, arrLocation, maxPrice);
+		java.sql.Date depDateSQL = null;
+		java.sql.Date arrDateSQL = null;
+		if(depDate != (null))
+			depDateSQL = java.sql.Date.valueOf(convertToZonedDateTime(depDate).toLocalDate());
+		if(arrDate != (null))
+			arrDateSQL = java.sql.Date.valueOf(convertToZonedDateTime(arrDate).toLocalDate());
+		
+		return sql.searchFlights(depDateSQL, arrDateSQL, depLocation, arrLocation);
 	}
 	
 	public static void bookFlight(int flightNumber, String seat,
-			String email, String firstName, String lastName, Date DOB)
+			String email, String firstName, String lastName)
 	{
 		// enter customer data if necessary
 		if(!sql.isCustomerInDatabase(email))
-			sql.insertNewCustomer(email, firstName, lastName, DOB);
+			sql.insertNewCustomer(email, firstName, lastName);
 		
 		// enter booking data
 		sql.bookFlight(flightNumber, seat, email);
@@ -124,11 +130,6 @@ public class AppManager
 	public static String getCustomerLastName(String email)
 	{
 		return (String) sql.getCustomer(email).get(1);
-	}
-	
-	public static Date getCustomerDOB(String email)
-	{
-		return (Date) sql.getCustomer(email).get(2);
 	}
 	
 	public static ZonedDateTime convertToZonedDateTime(Object d)

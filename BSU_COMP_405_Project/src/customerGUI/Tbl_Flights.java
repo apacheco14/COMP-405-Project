@@ -10,8 +10,7 @@ import controller.AppManager;
 class Tbl_Flights extends JTable implements TableModelListener
 {
 	private static final long serialVersionUID = -7111214612644360874L;
-	private DefaultTableModel model = new DefaultTableModel(
-			AppManager.searchFlights(null, null, null, null, 0), AppManager.getFlightColumnNames());
+	private DefaultTableModel model = new DefaultTableModel();
 	
 	protected Tbl_Flights()
 	{
@@ -22,7 +21,9 @@ class Tbl_Flights extends JTable implements TableModelListener
 		this.setModel(model);
 		this.setRowSelectionAllowed(true);
 		this.setColumnSelectionAllowed(false);
+		this.updateTable(AppManager.searchFlights(new Object[] {null, null, null, null, 0}));
 		model.addTableModelListener(this);
+		model.fireTableDataChanged();
 	}
 	
 	public void updateTable(Object[][] newData)

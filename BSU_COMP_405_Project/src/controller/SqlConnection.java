@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 class SqlConnection
@@ -15,6 +17,8 @@ class SqlConnection
 	private Connection connection;
 	private String sql;
 	private String DB_PATH = SqlConnection.class.getResource("project.sqlite").getFile();
+	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	private DateFormat tf = new SimpleDateFormat("hh:mm a");
 	
 	// constructor should only be called by AppManager
 	SqlConnection()
@@ -62,7 +66,7 @@ class SqlConnection
 
 	ArrayList<String> getAirportLocations()
 	{
-		sql = "SELECT City, Code FROM Airport ORDER BY City ASC";
+		sql = "SELECT Code FROM Airport ORDER BY Code ASC";
 		
 		try
 		{
@@ -70,7 +74,7 @@ class SqlConnection
 			ResultSet result = stmt.executeQuery();
 			ArrayList<String> resultList = new ArrayList<String>();
 			while(result.next())
-				resultList.add(result.getString("City") + " (" + result.getString("Code") + ")");
+				resultList.add(result.getString("Code"));
 			
 			return resultList;
 			
@@ -177,7 +181,7 @@ class SqlConnection
 		{
 			for(int c = 0; c < cols; c++)
 			{
-				String seatLabel = String.valueOf(r) + 65 + c;
+				String seatLabel = String.valueOf(r + 1) + (char) (65 + c);
 				seats.add(seatLabel);
 			}
 		}
@@ -237,8 +241,7 @@ class SqlConnection
 		return null;
 	}
 	
-	void insertNewCustomer(String email, String firstName, String lastName,
-			java.util.Date DOB)
+	void insertNewCustomer(String email, String firstName, String lastName)
 	{
 		sql = "INSERT INTO Customer (Email, FirstName, LastName, DoB) " +
 				"VALUES (?, ?, ?, ?)";
@@ -249,8 +252,7 @@ class SqlConnection
 			stmt.setString(1, email);
 			stmt.setString(2, firstName);
 			stmt.setString(3, lastName);
-			stmt.setDate(4, Date.valueOf( AppManager.convertToZonedDateTime(DOB).toLocalDate() ));
-			stmt.executeQuery();
+			stmt.execute();
 		}
 		catch(Exception e1)
 		{
@@ -268,7 +270,7 @@ class SqlConnection
 			stmt.setString(1, email);
 			stmt.setString(2, String.valueOf(flightNumber));
 			stmt.setString(3, seat);
-			stmt.executeQuery();
+			stmt.execute();
 		}
 		catch(Exception e1)
 		{
@@ -277,55 +279,90 @@ class SqlConnection
 	}
 	
 	Object[][] searchFlights(java.sql.Date depDate, java.sql.Date arrDate, String depLocation,
-			String arrLocation, double maxPrice)
+			String arrLocation)
 	{
-//		if(param.equalsIgnoreCase(""))
-//		{
-//			sql = "SELECT art.Name AS art_name, alb.Title AS alb_title" +
-//					" FROM album alb INNER JOIN artist art USING (ArtistId)" +
-//					" ORDER BY art_name, alb_title";
-//		}
-//		else
-//		{
-//			sql = "SELECT art.Name AS art_name, alb.Title AS alb_title" +
-//					" FROM artist art INNER JOIN album alb USING (ArtistId)" +
-//					" WHERE art.Name LIKE ?" +
-//					" ORDER BY art_name, alb_title";
-//		}
-//		
-//		try
-//		{
-//			PreparedStatement stmt = connection.prepareStatement(sql);
-//			
-//			if(!param.equalsIgnoreCase(""))
-//			{
-//				stmt.setString( 1, "%" + param + "%" );
-//			}
-//			
-//			// get results
-//			ResultSet result = stmt.executeQuery();
-//			
-//			ArrayList<Object[]> resultList = new ArrayList<Object[]>();
-//			int numColumns = 2;
-//			while(result.next())
-//			{
-//				resultList.add(new Object[] {result.getString("art_name"), result.getString("alb_title")});
-//			}
-//			
-//			Object[][] data = new Object[resultList.size()][numColumns];
-//			int rowCounter = 0;
-//			for(Object row : resultList)
-//			{
-//				data[rowCounter] = (Object[]) row;
-//				rowCounter++;
-//			}
-//			return data;
-//			
-//		}
-//		catch(Exception e1)
-//		{
-//			e1.printStackTrace();
-//		}
+		boolean isDepDate = false, isArrDate = false, isDepLocation = false, isArrLocation = false;
+		
+		sql = "SELECT * FROM Flight WHERE ";
+		
+		if(depDate != null)
+		{
+			sql = sql + "DepartureDate = ? ";
+			System.out.println(depDate);
+			isDepDate = true;
+		}
+		if(arrDate != null)
+		{
+			sql = sql + "AND ArrivalDate = ? ";
+			isArrDate = true;
+		}
+		if(depLocation != null)
+		{
+			sql = sql + "AND Departure = ? ";
+			isDepLocation = true;
+		}
+		if(arrLocation != null)
+		{
+			sql = sql + "AND Arrival = ? ";
+			isArrLocation = true;
+		}
+		
+		if(isDepDate || isArrDate || isDepLocation || isArrLocation)
+			sql = sql + "ORDER BY Flight.Number ASC";
+		else
+			sql = sql + "Flight.Number > 0 ORDER BY Flight.Number ASC";
+		
+		System.out.println(sql);
+		
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			
+			if(isDepDate)
+				stmt.setString(1, df.format(depDate));
+			if(isArrDate)
+				stmt.setString(2, df.format(arrDate));
+			if(isDepLocation)
+				stmt.setString(3, depLocation);
+			if(isArrLocation)
+				stmt.setString(4, arrLocation);
+			
+			ResultSet result = stmt.executeQuery();
+			
+			ArrayList<Object[]> resultList = new ArrayList<Object[]>();
+			int numColumns = 8;
+			while(result.next())
+			{
+				resultList.add(new Object[] {
+						result.getString("Number"),
+						result.getString("Departure"),
+						result.getString("DepartureDate"),
+						result.getString("DepartureTime"),
+						result.getString("Arrival"),
+						result.getString("ArrivalDate"),
+						result.getString("ArrivalTime"),
+						result.getInt("PlaneId")});
+				
+				System.out.println(result.getString("Departure") + " "
+						+ result.getString("Arrival"));
+			}
+			
+			Object[][] data = new Object[resultList.size()][numColumns];
+			int rowCounter = 0;
+			for(Object[] row : resultList)
+			{
+				data[rowCounter] = (Object[]) row;
+				rowCounter++;
+			}
+			
+			System.out.println("Returning ... " + data.length);
+			return data;
+			
+		}
+		catch(Exception e1)
+		{
+			e1.printStackTrace();
+		}
 		
 		return null;
 	}
@@ -335,22 +372,21 @@ class SqlConnection
 		if(data.length == 8)
 		{
 			sql = "INSERT INTO Flight"
-					+ "(PlaneId, departureDate, arrivalDate, departureTime,"
-					+ "arrivalTime, departure, arrival, price)"
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "(Departure, DepartureDate, DepartureTime, Arrival, ArrivalDate,"
+					+ "ArrivalTime, PlaneId)"
+					+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
 			
 			try
 			{
 				PreparedStatement stmt = connection.prepareStatement(sql);
 				
-				stmt.setInt(1, (int) data[0]);
-				stmt.setDate(2, Date.valueOf( AppManager.convertToZonedDateTime( data[1] ).toLocalDate() ));
-				stmt.setDate(3, Date.valueOf( AppManager.convertToZonedDateTime( data[2] ).toLocalDate() ));
-				stmt.setTime(4, Time.valueOf( AppManager.convertToZonedDateTime( data[3] ).toLocalTime() ));
-				stmt.setTime(5, Time.valueOf( AppManager.convertToZonedDateTime( data[4] ).toLocalTime() ));
-				stmt.setInt(6, (int) data[5]);
-				stmt.setInt(7, (int) data[6]);
-				stmt.setDouble(8, (double) data[7]);
+				stmt.setInt(7, (int) data[0]);
+				stmt.setString(2, df.format(Date.valueOf( AppManager.convertToZonedDateTime( data[1] ).toLocalDate() )));
+				stmt.setString(5, df.format(Date.valueOf( AppManager.convertToZonedDateTime( data[2] ).toLocalDate() )));
+				stmt.setString(3, tf.format(Time.valueOf( AppManager.convertToZonedDateTime( data[3] ).toLocalTime() )));
+				stmt.setString(6, tf.format(Time.valueOf( AppManager.convertToZonedDateTime( data[4] ).toLocalTime() )));
+				stmt.setString(1, (String) data[5]);
+				stmt.setString(4, (String) data[6]);
 				
 				stmt.executeUpdate();
 				

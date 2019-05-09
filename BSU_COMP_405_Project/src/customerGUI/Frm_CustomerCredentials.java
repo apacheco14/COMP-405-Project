@@ -28,13 +28,11 @@ class Frm_CustomerCredentials extends JFrame implements WindowListener, MouseLis
 	private JLabel lbl_email = new JLabel("Email");
 	private JLabel lbl_firstName = new JLabel("First Name");
 	private JLabel lbl_lastName = new JLabel("Last Name");
-	private JLabel lbl_DOB = new JLabel("Date of Birth");
 	private JLabel lbl_seat = new JLabel("Seat");
 	
 	private JTextField txt_email = new JTextField();
 	private JTextField txt_firstName = new JTextField();
 	private JTextField txt_lastName = new JTextField();
-	private JXDatePicker dtp_DOB = new JXDatePicker();
 	private JComboBox<String> drp_seat = new JComboBox<String>();
 	
 	private JButton btn_cancel = new JButton("Cancel");
@@ -56,9 +54,6 @@ class Frm_CustomerCredentials extends JFrame implements WindowListener, MouseLis
 		
 		add(lbl_lastName);
 		add(txt_lastName);
-		
-		add(lbl_DOB);
-		add(dtp_DOB);
 		
 		add(lbl_seat);
 		ArrayList<String> availableSeats = AppManager.getAvailableSeats(flightNumber);
@@ -90,15 +85,11 @@ class Frm_CustomerCredentials extends JFrame implements WindowListener, MouseLis
 			
 			txt_lastName.setText(AppManager.getCustomerLastName(email));
 			txt_lastName.setEditable(false);
-			
-			dtp_DOB.setDate(AppManager.getCustomerDOB(email));
-			dtp_DOB.setEditable(false);
 		}
 		else
 		{
 			txt_firstName.setEditable(true);
 			txt_lastName.setEditable(true);
-			dtp_DOB.setEditable(true);
 		}
 	}
 	
@@ -121,7 +112,6 @@ class Frm_CustomerCredentials extends JFrame implements WindowListener, MouseLis
 		String email = txt_email.getText();
 		String firstName = txt_firstName.getText();
 		String lastName = txt_lastName.getText();
-		Date DOB = dtp_DOB.getDate();
 		String seat = (String) drp_seat.getSelectedItem();
 		
 		switch(JOptionPane.showConfirmDialog(
@@ -129,7 +119,7 @@ class Frm_CustomerCredentials extends JFrame implements WindowListener, MouseLis
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE))
 		{
 			case JOptionPane.YES_OPTION:
-				AppManager.bookFlight(flightNumber, seat, email, firstName, lastName, DOB);
+				AppManager.bookFlight(flightNumber, seat, email, firstName, lastName);
 				dispose();
 				System.exit(0);
 				break;

@@ -72,8 +72,6 @@ public class Frm_CustomerBooking extends JFrame implements ActionListener, Windo
 		setVisible(true);
 		setIconImage(AppManager.getIconImage());
 		addWindowListener(this);
-		
-		refreshTable();
 	}
 	
 	void refreshTable()
@@ -129,7 +127,7 @@ public class Frm_CustomerBooking extends JFrame implements ActionListener, Windo
 			{
 				int row = tbl_flights.getSelectedRow();
 				int col = 0;		// TODO need a way to make sure that this is right
-				new Frm_CustomerCredentials((Integer) tbl_flights.getValueAt(row, col));
+				new Frm_CustomerCredentials((Integer.valueOf((String) tbl_flights.getValueAt(row, col))));
 			}
 		}
 	}
