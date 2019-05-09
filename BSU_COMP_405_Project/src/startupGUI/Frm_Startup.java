@@ -1,8 +1,8 @@
 package startupGUI;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -16,21 +16,18 @@ public class Frm_Startup extends JFrame implements MouseListener
 {
 	private static final long serialVersionUID = -6212417862601644877L;
 	
-	private Point screenCenter = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
-	private static final int WINDOW_SIZE_X = 200;
-	private static final int WINDOW_SIZE_Y = 150;
-	
 	private JLabel lbl_title = new JLabel("Select user type");
 	private JButton btn_employee = new JButton("Employee");
 	private JButton btn_customer = new JButton("Customer");
 
 	public Frm_Startup()
 	{
-		this.setLocation(screenCenter.x-WINDOW_SIZE_X/2, screenCenter.y-WINDOW_SIZE_Y/2);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(WINDOW_SIZE_X, WINDOW_SIZE_Y);
-		this.setVisible(true);
-		this.setIconImage(AppManager.getIconImage());
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(0, 0, (int) (0.156*screenSize.width), (int) (0.208*screenSize.height));
+		setLocationRelativeTo(null);
+		setVisible(true);
+		setIconImage(AppManager.getIconImage());
 		
 		btn_employee.addMouseListener(this);
 		btn_customer.addMouseListener(this);

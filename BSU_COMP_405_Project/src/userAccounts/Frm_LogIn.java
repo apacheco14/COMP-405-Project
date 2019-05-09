@@ -1,8 +1,10 @@
 package userAccounts;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -31,7 +33,8 @@ public class Frm_LogIn extends JFrame implements ActionListener, KeyListener
 	public Frm_LogIn()
 	{
 		super("Airline DBMS Login");
-		setSize(300, 150);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(0, 0, (int) (0.234*screenSize.width), (int) (0.208*screenSize.height));
 		setLayout(new GridBagLayout());
 		setResizable(false);
 		setLocationRelativeTo(null);

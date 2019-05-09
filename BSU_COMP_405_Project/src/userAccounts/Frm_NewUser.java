@@ -1,7 +1,9 @@
 package userAccounts;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -48,8 +50,9 @@ public class Frm_NewUser extends JFrame implements CaretListener, FocusListener,
 	
 	public Frm_NewUser()
 	{
-		super("BEMS New User");
-		setSize(600, 300);
+		super("Airline DBMS New User");
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(0, 0, (int) (0.469*screenSize.width), (int) (0.417*screenSize.height));
 		setLayout(new GridLayout(7, 2, 10, 10));
 		setResizable(false);
 		setLocationRelativeTo(null);

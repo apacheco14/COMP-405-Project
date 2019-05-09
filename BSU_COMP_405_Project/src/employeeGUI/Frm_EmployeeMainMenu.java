@@ -1,6 +1,8 @@
 package employeeGUI;
 
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -51,7 +53,8 @@ public class Frm_EmployeeMainMenu extends JFrame implements ActionListener, Wind
 	public Frm_EmployeeMainMenu(User user)
 	{
 		super("Airline Database Management System");
-		setSize(768 + 6, 386 + 52);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(0, 0, (int) (0.605*screenSize.width), (int) (0.692*screenSize.height));
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

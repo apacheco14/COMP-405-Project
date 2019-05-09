@@ -1,6 +1,8 @@
 package customerGUI;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
@@ -8,16 +10,12 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
-import java.util.Date;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
-import org.jdesktop.swingx.JXDatePicker;
 
 import controller.AppManager;
 
@@ -66,9 +64,10 @@ class Frm_CustomerCredentials extends JFrame implements WindowListener, MouseLis
 		btn_confirm.addMouseListener(this);
 		add(btn_confirm);
 		
-		setSize(450, 250);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(0, 0, (int) (0.352*screenSize.width), (int) (0.300*screenSize.height));
 		setResizable(false);
-		setLayout(new GridLayout(6, 2, 5, 10));
+		setLayout(new GridLayout(5, 2, 5, 10));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setVisible(true);
