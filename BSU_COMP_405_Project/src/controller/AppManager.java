@@ -84,11 +84,15 @@ public class AppManager
 				"Arrival", "ArrivalDate", "ArrivalTime", "PlaneId"};
 	}
 	
-	public static Object[][] searchFlights(Object[] params)
+	public static Object[][] searchFlights(java.util.Date depDate, java.util.Date arrDate,
+			String depLocation, String arrLocation, double maxPrice)
 	{
-		// TODO Auto-generated method stub
-		// return sql.searchFlights(params);
-		return null;
+		java.sql.Date depDateSQL =
+				java.sql.Date.valueOf(convertToZonedDateTime(depDate).toLocalDate());
+		java.sql.Date arrDateSQL =
+				java.sql.Date.valueOf(convertToZonedDateTime(arrDate).toLocalDate());
+		
+		return sql.searchFlights(depDateSQL, arrDateSQL, depLocation, arrLocation, maxPrice);
 	}
 	
 	public static void bookFlight(int flightNumber, String seat,

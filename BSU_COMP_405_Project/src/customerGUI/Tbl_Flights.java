@@ -11,7 +11,7 @@ class Tbl_Flights extends JTable implements TableModelListener
 {
 	private static final long serialVersionUID = -7111214612644360874L;
 	private DefaultTableModel model = new DefaultTableModel(
-			AppManager.searchFlights(null), AppManager.getFlightColumnNames());
+			AppManager.searchFlights(null, null, null, null, 0), AppManager.getFlightColumnNames());
 	
 	protected Tbl_Flights()
 	{
